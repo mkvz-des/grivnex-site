@@ -13,9 +13,11 @@
 <style>
 :root{color-scheme:dark;--bg:#0F0F0F;--bg-glow:#11201A;--text:#F4F6F5;--soft:rgba(244,246,245,.86);--muted:#8E9994;--brand:#1FC184;--brand-hi:#2BE39B;--line:rgba(244,246,245,.12);--field:#171918;--pad:10.8vw}
 *{box-sizing:border-box}
-html,body{margin:0;height:100%}
-body{background:var(--bg);color:var(--text);font-family:"Wix Madefor Display",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
-.hero{position:relative;min-height:100vh;min-height:100svh;overflow:hidden;background:radial-gradient(ellipse 50% 50% at 70% 55%,var(--bg-glow) 0%,var(--bg) 70%)}
+html,body{margin:0}
+html{background:#FFFFFF}
+body{background:#FFFFFF;color:var(--text);font-family:"Wix Madefor Display",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+.pin{position:relative;height:200vh;height:200svh}
+.hero{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;transform-origin:50% 50%;will-change:transform;background:radial-gradient(ellipse 50% 50% at 70% 55%,var(--bg-glow) 0%,var(--bg) 70%)}
 #stage{position:absolute;inset:0}
 #stage canvas{display:block;width:100%;height:100%}
 .nav{position:absolute;z-index:2;top:0;left:0;right:0;display:flex;align-items:center;padding:clamp(28px,6.7vh,64px) var(--pad) 0;pointer-events:none}
@@ -25,8 +27,8 @@ body{background:var(--bg);color:var(--text);font-family:"Wix Madefor Display",sy
 .copy{position:absolute;z-index:2;left:var(--pad);top:50%;transform:translateY(-60%);pointer-events:none}
 .copy *{pointer-events:auto}
 h1{margin:0;font-weight:500;font-size:clamp(30px,3.05vw,64px);line-height:1.1;letter-spacing:-.02em;white-space:nowrap}
-.lead{margin:.55em 0 1.05em;font-size:clamp(14px,1.13vw,22px);line-height:1.3;color:var(--soft);width:19em;min-height:2.6em}
-.lead .sc{opacity:.35}
+.lead{margin:.55em 0 1.05em;font-size:clamp(14px,1.13vw,22px);line-height:1.3;color:var(--text);width:19em;min-height:2.6em}
+.lead .sc{color:var(--text)}
 .actions{display:flex;align-items:center;gap:1.2em;font-size:clamp(14px,1.13vw,22px)}
 .cta{display:inline-flex;align-items:center;justify-content:center;color:var(--text);font-size:1em;padding:.5em 1.7em;border:1px solid var(--brand);border-radius:.6em;text-decoration:none;transition:background .25s,border-color .25s}
 .cta:hover{background:rgba(31,193,132,.12);border-color:var(--brand-hi)}
@@ -40,6 +42,15 @@ body.go .copy .lead{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .3s both}
 body.go .copy .actions{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .5s both}
 @keyframes zin{from{opacity:0;transform:scale(1.35);filter:blur(10px)}to{opacity:1;transform:none;filter:none}}
 @media (prefers-reduced-motion:reduce){.copy h1,.copy .lead,.copy .actions{opacity:1;animation:none!important}}
+.info{position:relative;z-index:1;background:#FFFFFF;color:#0F0F0F;padding:clamp(56px,8vh,120px) var(--pad) clamp(96px,14vh,180px);margin-top:-22vh}
+.info h2{margin:0 0 .6em;font-weight:500;font-size:clamp(28px,2.6vw,52px);letter-spacing:-.02em;line-height:1.1;max-width:16em}
+.info .sub{margin:0 0 3em;font-size:clamp(15px,1.13vw,21px);line-height:1.45;color:#4D5450;max-width:30em}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.4vw,28px)}
+.card{border:1px solid rgba(15,15,15,.1);border-radius:20px;padding:clamp(22px,2vw,40px);min-height:clamp(180px,16vw,300px);display:flex;flex-direction:column;justify-content:space-between}
+.card b{display:block;font-weight:500;font-size:clamp(22px,1.8vw,34px);letter-spacing:-.02em}
+.card p{margin:0;font-size:clamp(14px,1vw,18px);line-height:1.45;color:#4D5450}
+.card .n{font-size:13px;color:#7A827E;margin-bottom:auto;padding-bottom:2em}
+@media (max-width:760px){.cards{grid-template-columns:1fr}.info{margin-top:-8vh}}
 .hint{position:absolute;z-index:2;right:var(--pad);bottom:24px;font-size:13px;color:var(--muted);opacity:.8}
 .gate{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:var(--bg);transition:opacity .5s}
 .gate.hide{opacity:0;pointer-events:none}
@@ -72,6 +83,7 @@ body.go .copy .actions{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .5s both}
     <button type="submit">Увійти</button>
   </form>
 </div>
+<div class="pin">
 <section class="hero" id="hero">
   <div id="stage"></div>
   <nav class="nav">
@@ -83,6 +95,16 @@ body.go .copy .actions{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .5s both}
     <div class="actions"><a class="cta" href="#">Почати</a><a class="ghost" href="#">Куди почнемо <span aria-hidden="true">→</span></a></div>
   </div>
   <div class="hint">Натисни на злиток</div>
+</section>
+</div>
+<section class="info" id="info">
+  <h2>Гроші, яким тисяча років, у сучасному цифровому форматі</h2>
+  <p class="sub">Grivnex бере ідею гривни Київської Русі — срібного злитка, який ділили на частини, — і переносить її в цифровий світ.</p>
+  <div class="cards">
+    <div class="card"><span class="n">01</span><b>Своє</b><p>Ти тримаєш свої гроші сам. Без посередників між тобою і твоїми коштами.</p></div>
+    <div class="card"><span class="n">02</span><b>Зрозуміло</b><p>Простими словами про те, як усе працює. Деталі для досвідчених — на крок глибше.</p></div>
+    <div class="card"><span class="n">03</span><b>Швидко</b><p>Перекази за секунди, будь-коли і будь-куди.</p></div>
+  </div>
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
@@ -294,6 +316,22 @@ requestAnimationFrame(frame);
   function begin(){setTimeout(next,HOLD)}
   if(document.body.classList.contains('go'))begin();
   else new MutationObserver((m,o)=>{if(document.body.classList.contains('go')){o.disconnect();begin()}}).observe(document.body,{attributes:true,attributeFilter:['class']});
+})();
+</script>
+<script>
+// Scroll: the first screen shrinks into a rounded card over a white page
+(function(){
+  const hero=document.getElementById('hero');if(!hero)return;
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let ticking=false;
+  function apply(){ticking=false;
+    const vh=window.innerHeight,p=Math.min(1,Math.max(0,window.scrollY/vh)),e=p*p*(3-2*p);
+    const m=(window.innerWidth>760?300/1080:.12)*vh,s=reduce?1:1-e*(2*m/vh);
+    hero.style.transform=s<1?'scale('+s.toFixed(4)+')':'';
+    hero.style.borderRadius=(e*28/s).toFixed(2)+'px';
+  }
+  function req(){if(!ticking){ticking=true;requestAnimationFrame(apply)}}
+  addEventListener('scroll',req,{passive:true});addEventListener('resize',req);apply();
 })();
 </script>
 </body>
