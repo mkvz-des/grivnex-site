@@ -9,12 +9,12 @@
 <meta name="description" content="Гроші, яким тисяча років, у сучасному цифровому форматі.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{color-scheme:dark;--bg:#06110D;--bg-glow:#0D261C;--text:#EAF6F0;--muted:#8DA89C;--brand:#00B37A;--brand-dark:#00D18C;--line:rgba(234,246,240,.12);--field:#0D1C16}
 *{box-sizing:border-box}
 html,body{margin:0;height:100%}
-body{background:var(--bg);color:var(--text);font-family:Onest,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--text);font-family:"Wix Madefor Display",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
 .hero{position:relative;min-height:100vh;min-height:100svh;overflow:hidden;background:radial-gradient(ellipse 60% 55% at 70% 55%,var(--bg-glow) 0%,var(--bg) 70%)}
 @media (max-width:760px){.hero{background:radial-gradient(ellipse 90% 45% at 50% 70%,var(--bg-glow) 0%,var(--bg) 75%)}}
 #stage{position:absolute;inset:0}
@@ -26,10 +26,17 @@ body{background:var(--bg);color:var(--text);font-family:Onest,system-ui,-apple-s
 .links{display:flex;gap:28px;font-size:15px}
 .links a{color:var(--muted);text-decoration:none}
 .links a:hover{color:var(--text)}
-.copy{position:relative;z-index:2;max-width:560px;padding:clamp(48px,14vh,160px) clamp(16px,4vw,56px) 0;pointer-events:none}
+.copy{position:relative;z-index:2;max-width:600px;padding:clamp(56px,16vh,180px) clamp(16px,4vw,56px) 0;pointer-events:none}
 .copy *{pointer-events:auto}
-h1{margin:0;font-weight:500;font-size:clamp(40px,6vw,76px);line-height:1.02;letter-spacing:-.03em}
-.lead{margin:20px 0 32px;font-size:clamp(16px,1.4vw,20px);line-height:1.5;color:var(--muted);max-width:440px}
+h1{margin:0;font-weight:600;font-size:clamp(40px,6vw,78px);line-height:.98;letter-spacing:-.035em}
+.lead{margin:14px 0 26px;font-size:clamp(16px,1.4vw,20px);line-height:1.45;color:var(--muted);max-width:440px;min-height:2.9em}
+.lead .sc{color:var(--brand-dark);opacity:.85}
+.copy h1,.copy .lead,.copy .cta{opacity:0;transform-origin:0 50%}
+body.go .copy h1{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .05s both}
+body.go .copy .lead{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .3s both}
+body.go .copy .cta{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .5s both}
+@keyframes zin{from{opacity:0;transform:scale(1.35);filter:blur(10px)}to{opacity:1;transform:none;filter:none}}
+@media (prefers-reduced-motion:reduce){.copy h1,.copy .lead,.copy .cta{opacity:1;animation:none!important}}
 .cta{display:inline-flex;align-items:center;gap:8px;background:var(--brand);color:#fff;font-size:16px;font-weight:500;padding:14px 26px;border-radius:999px;text-decoration:none;transition:background .2s}
 .cta:hover{background:var(--brand-dark)}
 .hint{position:absolute;z-index:2;right:clamp(16px,4vw,56px);bottom:24px;font-size:13px;color:var(--muted);opacity:.8}
@@ -68,7 +75,7 @@ h1{margin:0;font-weight:500;font-size:clamp(40px,6vw,76px);line-height:1.02;lett
   </nav>
   <div class="copy">
     <h1>Тисяча років у розробці</h1>
-    <p class="lead">Гроші, яким тисяча років, у сучасному цифровому форматі.</p>
+    <p class="lead" id="lead" aria-live="polite">Гроші, яким тисяча років, у сучасному цифровому форматі.</p>
     <a class="cta" href="#">Почати</a>
   </div>
   <div class="hint">Натисни на злиток</div>
@@ -202,7 +209,7 @@ hero.addEventListener('pointerleave',()=>{mx=my=0});
 hero.addEventListener('click',e=>{if(e.target.closest('a'))return;setNdc(e);if(state==='hold'&&overIngot())burst()});
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 let clock=0,state='wait',st=0,last=performance.now();
-window.grivnexStart=()=>{if(state==='wait'){state=reduce?'hold':'in';st=0}};
+window.grivnexStart=()=>{document.body.classList.add('go');if(state==='wait'){state=reduce?'hold':'in';st=0}};
 function burst(){if(state==='hold'){state='out';st=0;hero.style.cursor=''}}
 const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2,cl=v=>v<0?0:v>1?1:v,sm=t=>t*t*(3-2*t);
 function kOf(P,i){if(state==='wait')return 1;if(state==='in')return 1-ease(cl(((st-ED[P.em[i]])/3-P.dA[i])/.55));if(state==='out')return ease(cl(((st-.45)/1.6-P.dS[i])/.55));return 0}
@@ -231,7 +238,7 @@ function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;clock+=dt;st
   haloIn.material.opacity=prog*(.3+glow*.6);haloOut.material.opacity=prog*(.14+glow*.45);
   PU.uOp.value=pop;const sv=pop>.001;sandFly.visible=sandLand.visible=mask.visible=sv;
   smx+=(mx-smx)*.06;smy+=(my-smy)*.06;
-  group.rotation.y=-.1+Math.sin(clock*.35)*.12+smx*.3;group.rotation.x=smy*.12;group.position.y=Math.sin(clock*1.1)*.06;
+  group.rotation.y=-.1+Math.sin(clock*.35)*.12+smx*.3;group.rotation.x=smy*.12;group.position.y=Math.sin(clock*1.1)*.06;group.scale.setScalar(.82*(1-.04*(.5-.5*Math.cos(clock*.75))));
   group.updateMatrixWorld();basis();for(let e=0;e<NE;e++)scr(EF[e][0],EF[e][1],E,e*3);
   const m=group.matrixWorld.elements;
   if(sv){upd(S,m,false);
@@ -247,15 +254,43 @@ requestAnimationFrame(frame);
 (function(){
   const HASH='9e558a7dc777d285f1384223cdb889ab060244c1826ec7451e72b25a30bcf028',KEY='grivnex-preview';
   const gate=document.getElementById('gate'),form=document.getElementById('gateForm'),pin=document.getElementById('pin'),err=document.getElementById('pinErr');
-  function open(){gate.classList.add('hide');setTimeout(()=>{gate.remove();window.grivnexStart&&window.grivnexStart()},350)}
+  function open(){gate.classList.add('hide');setTimeout(()=>{gate.remove();document.body.classList.add('go');window.grivnexStart&&window.grivnexStart()},350)}
   let ok=false;try{ok=localStorage.getItem(KEY)===HASH}catch(e){}
-  if(ok){gate.remove();window.grivnexStart&&window.grivnexStart();return}
+  if(ok){gate.remove();document.body.classList.add('go');window.grivnexStart&&window.grivnexStart();return}
   async function sha(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('')}
   pin.addEventListener('input',()=>{err.textContent=''});
   form.addEventListener('submit',async e=>{e.preventDefault();
     const v=pin.value.trim();if(!/^\d{4}$/.test(v)){err.textContent='Введи 4 цифри';return}
     if(await sha(v)===HASH){try{localStorage.setItem(KEY,HASH)}catch(e){}open()}
     else{err.textContent='Невірний PIN';pin.value='';pin.focus()}});
+})();
+</script>
+<script>
+// Rotating slogans with a scramble (decode) effect
+(function(){
+  const el=document.getElementById('lead');if(!el)return;
+  const phrases=['Гроші, яким тисяча років, у сучасному цифровому форматі.','Своє. Зрозуміло. Швидко.','Свої цифрові гроші — від гривни до блокчейну.','Тисяча років довіри в одному токені.'];
+  const glyphs='ABCDEFGHJKLMNPQRSTUVWXYZАБВГҐДЖЗИЇЙКЛМНПРСТФЦШЩЮЯ0123456789#$%&*+=<>/';
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  let idx=0;
+  function scramble(to,done){
+    const from=el.textContent,len=Math.max(from.length,to.length),q=[];
+    for(let i=0;i<len;i++){const s=Math.floor(Math.random()*18)+i*.45,e=s+12+Math.floor(Math.random()*16);q.push({f:from[i]||'',t:to[i]||'',s,e,c:''})}
+    let fr=0;
+    (function tick(){let out='',fin=0;
+      for(const it of q){
+        if(fr>=it.e){fin++;out+=esc(it.t)}
+        else if(fr>=it.s){if(!it.c||Math.random()<.3)it.c=it.t===' '?' ':glyphs[Math.random()*glyphs.length|0];out+='<span class="sc">'+esc(it.c)+'</span>'}
+        else out+=esc(it.f)}
+      el.innerHTML=out;
+      if(fin===q.length){el.textContent=to;done&&done();return}
+      fr++;requestAnimationFrame(tick)})();
+  }
+  function esc(c){return c==='<'?'&lt;':c==='>'?'&gt;':c==='&'?'&amp;':c}
+  function next(){idx=(idx+1)%phrases.length;scramble(phrases[idx],()=>setTimeout(next,4200))}
+  function begin(){setTimeout(next,4800)}
+  if(document.body.classList.contains('go'))begin();
+  else new MutationObserver((m,o)=>{if(document.body.classList.contains('go')){o.disconnect();begin()}}).observe(document.body,{attributes:true,attributeFilter:['class']});
 })();
 </script>
 </body>
