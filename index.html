@@ -151,20 +151,30 @@ const k4=new T.DirectionalLight(0xffffff,.5);k4.position.set(-3,5,1);scene.add(k
 const k5=new T.DirectionalLight(0xffffff,.95);k5.position.set(2,3,6);scene.add(k5);
 
 function rp(pts,r){const s=new T.Shape(),n=pts.length;for(let i=0;i<n;i++){const p0=pts[(i-1+n)%n],p1=pts[i],p2=pts[(i+1)%n];const v1=new T.Vector2().subVectors(p0,p1).normalize(),v2=new T.Vector2().subVectors(p2,p1).normalize();const a=p1.clone().addScaledVector(v1,r),b=p1.clone().addScaledVector(v2,r);if(i===0)s.moveTo(a.x,a.y);else s.lineTo(a.x,a.y);s.quadraticCurveTo(p1.x,p1.y,b.x,b.y)}s.closePath();return s}
-// Hexagonal grivna of Kyivan Rus: low elongated hexagon, slightly convex edges, soft corners
-const HL=1.66,HM=.8,HE=.36;
-function grivnaShape(){
-  const V=[[-HL,-HE],[0,-HM],[HL,-HE],[HL,HE],[0,HM],[-HL,HE]],B=[.035,.035,.03,.035,.035,.03],pts=[];
-  for(let i=0;i<6;i++){const a=V[i],b=V[(i+1)%6],dx=b[0]-a[0],dy=b[1]-a[1],l=Math.hypot(dx,dy),nx=dy/l,ny=-dx/l;
-    for(let k=0;k<24;k++){const t=k/24,bulge=Math.sin(Math.PI*t)*B[i];pts.push([a[0]+dx*t+nx*bulge,a[1]+dy*t+ny*bulge])}}
-  let P=pts;for(let it=0;it<2;it++){const Q=[];for(let i=0;i<P.length;i++){const p0=P[i],p1=P[(i+1)%P.length];Q.push([p0[0]*.75+p1[0]*.25,p0[1]*.75+p1[1]*.25],[p0[0]*.25+p1[0]*.75,p0[1]*.25+p1[1]*.75])}P=Q}
-  const sh=new T.Shape();sh.moveTo(P[0][0],P[0][1]);for(let i=1;i<P.length;i++)sh.lineTo(P[i][0],P[i][1]);sh.closePath();return sh}
-const shape=grivnaShape();
-let g=new T.ExtrudeGeometry(shape,{depth:.22,bevelEnabled:true,bevelThickness:.12,bevelSize:.07,bevelSegments:10,curveSegments:4});
-g.rotateX(-Math.PI/2);g.center();
+// Hexagonal grivna of Kyivan Rus: concave sides, sharp thin rims, faceted top with a flat table
+function grivnaGeo(){
+  const L=1.6,HM=.78,HE=.42,T0=.5,TB=.24,E0=.06,N=140,M=64;
+  const wOf=x=>HE+(HM-HE)*Math.pow(1-Math.abs(x)/L,1.7);
+  const TOf=x=>T0*(.8+.2*(1-(x/L)*(x/L)));
+  const TABLE=E0+(T0-E0)*(1-.36/HM);
+  const pos=[],idx=[];
+  const yTop=(x,v)=>Math.min(E0+(TOf(x)-E0)*(1-Math.abs(v)),TABLE);
+  const yBot=(x,v)=>-(E0+(TB-E0)*(1-Math.abs(v)));
+  function grid(top){const base=pos.length/3;
+    for(let i=0;i<=N;i++){const x=-L+2*L*i/N,w=wOf(x);for(let j=0;j<=M;j++){const v=-1+2*j/M;pos.push(x,top?yTop(x,v):yBot(x,v),v*w)}}
+    for(let i=0;i<N;i++)for(let j=0;j<M;j++){const a=base+i*(M+1)+j,b=a+M+1;if(top)idx.push(a,a+1,b,b,a+1,b+1);else idx.push(a,b,a+1,b,b+1,a+1)}}
+  grid(true);grid(false);
+  const loop=[];for(let i=0;i<=N;i++)loop.push([i,0]);for(let j=1;j<=M;j++)loop.push([N,j]);for(let i=N-1;i>=0;i--)loop.push([i,M]);for(let j=M-1;j>=1;j--)loop.push([0,j]);
+  const P=(i,j,top)=>{const x=-L+2*L*i/N,v=-1+2*j/M;return[x,top?yTop(x,v):yBot(x,v),v*wOf(x)]};
+  for(let k=0;k<loop.length;k++){const A=loop[k],B=loop[(k+1)%loop.length];
+    const t0=P(A[0],A[1],1),t1=P(B[0],B[1],1),b0=P(A[0],A[1],0),b1=P(B[0],B[1],0),base=pos.length/3;
+    pos.push(...t0,...t1,...b1,...b0);
+    const ux=t1[0]-t0[0],uz=t1[2]-t0[2],vy=b0[1]-t0[1],nx=-uz*vy,nz=ux*vy,cx=(t0[0]+t1[0])/2,cz=(t0[2]+t1[2])/2;
+    if(nx*cx+nz*cz>0)idx.push(base,base+1,base+2,base,base+2,base+3);else idx.push(base,base+2,base+1,base,base+3,base+2)}
+  const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(pos,3));geo.setIndex(idx);geo.computeVertexNormals();return geo}
+let g=grivnaGeo();g.center();
 const raw=g.toNonIndexed().attributes.position.array;
-if(T.BufferGeometryUtils){g.deleteAttribute('normal');g.deleteAttribute('uv');g=T.BufferGeometryUtils.mergeVertices(g,1e-4)}
-g.computeVertexNormals();g.computeBoundingBox();
+g.computeBoundingBox();
 const bb=g.boundingBox,half=bb.max.x,yh=bb.max.y;
 const C0=new T.Color(0x009466),C1=new T.Color(0x00E092);
 const BASE=new T.Color(0x00B97C);
@@ -183,7 +193,7 @@ const mask=new T.Mesh(g,new T.MeshBasicMaterial({colorWrite:false,depthWrite:fal
 mask.renderOrder=-5;group.add(mask);
 
 // Engraved G (placeholder for the final logo)
-const GR=.285,Gr=.16,Gt=GR-Gr,a0=Math.PI/4,Gi=Math.sqrt(Gr*Gr-Gt*Gt);
+const GR=.26,Gr=.145,Gt=GR-Gr,a0=Math.PI/4,Gi=Math.sqrt(Gr*Gr-Gt*Gt);
 function gPath(p,arcFn){p.moveTo(GR*Math.cos(a0),GR*Math.sin(a0));arcFn(GR,a0,Math.PI*2,false);p.lineTo(.03,0);p.lineTo(.03,-Gt);p.lineTo(Gi,-Gt);arcFn(Gr,-Math.asin(Gt/Gr),a0-Math.PI*2,true)}
 const gs=new T.Shape();gPath(gs,(r,a,b,cw)=>gs.absarc(0,0,r,a,b,cw));gs.closePath();
 const gAnchor=new T.Group();gAnchor.position.set(0,yh,.02);group.add(gAnchor);
