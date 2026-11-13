@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grivnex — Тисяча років у розробці</title>
+<meta name="description" content="Гроші, яким тисяча років, у сучасному цифровому форматі.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F4F7F5;--text:#0B1F18;--muted:#4A5E56;--brand:#00B37A;--brand-dark:#008F62;--line:rgba(11,31,24,.08)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--text);font-family:Onest,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+.hero{position:relative;min-height:100vh;min-height:100svh;overflow:hidden}
+#stage{position:absolute;inset:0}
+#stage canvas{display:block;width:100%;height:100%}
+.nav{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:24px clamp(16px,4vw,56px);pointer-events:none}
+.nav *{pointer-events:auto}
+.logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:20px;letter-spacing:-.01em;color:var(--text);text-decoration:none}
+.logo i{width:28px;height:28px;border-radius:9px;background:linear-gradient(135deg,#00E092,#009466);display:inline-block}
+.links{display:flex;gap:28px;font-size:15px}
+.links a{color:var(--muted);text-decoration:none}
+.links a:hover{color:var(--text)}
+.copy{position:relative;z-index:2;max-width:560px;padding:clamp(48px,14vh,160px) clamp(16px,4vw,56px) 0;pointer-events:none}
+.copy *{pointer-events:auto}
+h1{margin:0;font-weight:500;font-size:clamp(40px,6vw,76px);line-height:1.02;letter-spacing:-.03em}
+.lead{margin:20px 0 32px;font-size:clamp(16px,1.4vw,20px);line-height:1.5;color:var(--muted);max-width:440px}
+.cta{display:inline-flex;align-items:center;gap:8px;background:var(--brand);color:#fff;font-size:16px;font-weight:500;padding:14px 26px;border-radius:999px;text-decoration:none;transition:background .2s}
+.cta:hover{background:var(--brand-dark)}
+.hint{position:absolute;z-index:2;right:clamp(16px,4vw,56px);bottom:24px;font-size:13px;color:var(--muted);opacity:.8}
+@media (max-width:760px){
+  .links{display:none}
+  .copy{padding-top:32px}
+  .hint{left:16px;right:auto}
+}
+</style>
+</head>
+<body>
+<section class="hero" id="hero">
+  <div id="stage"></div>
+  <nav class="nav">
+    <a class="logo" href="#"><i aria-hidden="true"></i>Grivnex</a>
+    <div class="links"><a href="#">Як це працює</a><a href="#">Токен</a><a href="#">Спільнота</a></div>
+  </nav>
+  <div class="copy">
+    <h1>Тисяча років у розробці</h1>
+    <p class="lead">Гроші, яким тисяча років, у сучасному цифровому форматі.</p>
+    <a class="cta" href="#">Почати</a>
+  </div>
+  <div class="hint">Натисни на злиток</div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/utils/BufferGeometryUtils.js"></script>
+<script>
+(function(){
+const wrap=document.getElementById('stage'),hero=document.getElementById('hero');
+if(!window.THREE)return;
+const T=THREE;
+const renderer=new T.WebGLRenderer({antialias:true,alpha:true,stencil:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));
+renderer.outputEncoding=T.sRGBEncoding;
+wrap.appendChild(renderer.domElement);
+const scene=new T.Scene();
+const cam=new T.OrthographicCamera(-1,1,1,-1,0.1,100);
+cam.position.set(6,4.2,6);cam.lookAt(0,0,0);
+function size(){
+  const w=wrap.clientWidth,h=wrap.clientHeight;renderer.setSize(w,h);const a=w/h;
+  if(w>760){const V=2.5,FX=.68,W2=2*V*a;cam.left=-FX*W2;cam.right=(1-FX)*W2;cam.top=V*1.06;cam.bottom=-V*.94}
+  else{const V=Math.max(2.4,2.9/a),FY=.3;cam.left=-V*a;cam.right=V*a;cam.top=(1-FY)*2*V;cam.bottom=-FY*2*V}
+  cam.updateProjectionMatrix();
+}
+size();new ResizeObserver(size).observe(wrap);
+scene.add(new T.HemisphereLight(0xF2FFF9,0x08382D,.75));
+const k1=new T.DirectionalLight(0xffffff,2.5);k1.position.set(2.5,3.4,-5.2);scene.add(k1);
+const k2=new T.DirectionalLight(0x00FFA3,1.1);k2.position.set(-5,2,-4);scene.add(k2);
+const k3=new T.DirectionalLight(0x7DFFCE,0.5);k3.position.set(3,-3,4);scene.add(k3);
+const k4=new T.DirectionalLight(0xffffff,.5);k4.position.set(-3,5,1);scene.add(k4);
+const k5=new T.DirectionalLight(0xffffff,.95);k5.position.set(2,3,6);scene.add(k5);
+
+function rp(pts,r){const s=new T.Shape(),n=pts.length;for(let i=0;i<n;i++){const p0=pts[(i-1+n)%n],p1=pts[i],p2=pts[(i+1)%n];const v1=new T.Vector2().subVectors(p0,p1).normalize(),v2=new T.Vector2().subVectors(p2,p1).normalize();const a=p1.clone().addScaledVector(v1,r),b=p1.clone().addScaledVector(v2,r);if(i===0)s.moveTo(a.x,a.y);else s.lineTo(a.x,a.y);s.quadraticCurveTo(p1.x,p1.y,b.x,b.y)}s.closePath();return s}
+const shape=rp([new T.Vector2(-.82,0),new T.Vector2(.82,0),new T.Vector2(.56,.76),new T.Vector2(-.56,.76)],.22);
+let g=new T.ExtrudeGeometry(shape,{depth:2.7,bevelEnabled:true,bevelThickness:.3,bevelSize:.16,bevelSegments:12,curveSegments:28});
+g.rotateY(Math.PI/2);g.center();
+const raw=g.toNonIndexed().attributes.position.array;
+if(T.BufferGeometryUtils){g.deleteAttribute('normal');g.deleteAttribute('uv');g=T.BufferGeometryUtils.mergeVertices(g,1e-4)}
+g.computeVertexNormals();g.computeBoundingBox();
+const bb=g.boundingBox,half=bb.max.x,yh=bb.max.y;
+const C0=new T.Color(0x009466),C1=new T.Color(0x00E092);
+const BASE=new T.Color(0x00B97C);
+const U={uProg:{value:0},uDir:{value:0},uHalf:{value:half},uYH:{value:yh},uEdge:{value:new T.Color(0xD8FFEE)},uRim:{value:.15},uC0:{value:C0},uC1:{value:C1}};
+const mat=new T.MeshPhysicalMaterial({color:0x00B97C,roughness:.18,metalness:0,clearcoat:1,clearcoatRoughness:.02,emissive:0x00FFA3,emissiveIntensity:0,
+  stencilWrite:true,stencilRef:2,stencilFuncMask:2,stencilWriteMask:0,stencilFunc:T.NotEqualStencilFunc,stencilFail:T.KeepStencilOp,stencilZFail:T.KeepStencilOp,stencilZPass:T.KeepStencilOp});
+mat.onBeforeCompile=sh=>{Object.assign(sh.uniforms,U);
+  sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nvarying vec3 vPL;').replace('#include <begin_vertex>','#include <begin_vertex>\nvPL=position;');
+  sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nvarying vec3 vPL;uniform float uProg,uDir,uHalf,uYH,uRim;uniform vec3 uEdge,uC0,uC1;\nfloat h3(vec3 p){return fract(sin(dot(p,vec3(12.9898,78.233,45.164)))*43758.5453);}')
+  .replace('#include <clipping_planes_fragment>','#include <clipping_planes_fragment>\nfloat nz=h3(floor(vPL*34.));float dy=clamp((vPL.y+uYH)/(2.*uYH),0.,1.);float dx=clamp(1.-(vPL.x+uHalf)/(2.*uHalf),0.,1.);float vv=nz*.5+mix(dy,dx,uDir)*.5;float th=uProg*1.12-.02;if(vv>th)discard;float edge=1.-smoothstep(0.,.1,th-vv);')
+  .replace('#include <color_fragment>','#include <color_fragment>\ndiffuseColor.rgb=mix(uC0,uC1,clamp(dy*.75+dx*.25,0.,1.));')
+  .replace('#include <dithering_fragment>','#include <dithering_fragment>\nfloat rim=pow(1.-abs(dot(normalize(normal),vec3(0.,0.,1.))),2.5);gl_FragColor.rgb=mix(gl_FragColor.rgb,uEdge,clamp(edge*.6+rim*uRim,0.,1.));')};
+const group=new T.Group();scene.add(group);
+const mesh=new T.Mesh(g,mat);group.add(mesh);
+const mask=new T.Mesh(g,new T.MeshBasicMaterial({colorWrite:false,depthWrite:false,stencilWrite:true,stencilRef:1,stencilFuncMask:1,stencilWriteMask:1,stencilFunc:T.AlwaysStencilFunc,stencilZPass:T.ReplaceStencilOp,stencilFail:T.ReplaceStencilOp,stencilZFail:T.ReplaceStencilOp}));
+mask.renderOrder=-5;group.add(mask);
+
+// Engraved G (placeholder for the final logo)
+const GR=.285,Gr=.16,Gt=GR-Gr,a0=Math.PI/4,Gi=Math.sqrt(Gr*Gr-Gt*Gt);
+function gPath(p,arcFn){p.moveTo(GR*Math.cos(a0),GR*Math.sin(a0));arcFn(GR,a0,Math.PI*2,false);p.lineTo(.03,0);p.lineTo(.03,-Gt);p.lineTo(Gi,-Gt);arcFn(Gr,-Math.asin(Gt/Gr),a0-Math.PI*2,true)}
+const gs=new T.Shape();gPath(gs,(r,a,b,cw)=>gs.absarc(0,0,r,a,b,cw));gs.closePath();
+const gAnchor=new T.Group();gAnchor.position.set(0,yh,.02);group.add(gAnchor);
+const holeGeo=new T.ShapeGeometry(gs,56);holeGeo.rotateX(-Math.PI/2);
+const hole=new T.Mesh(holeGeo,new T.MeshBasicMaterial({colorWrite:false,depthWrite:false,stencilWrite:true,stencilRef:2,stencilWriteMask:2,stencilFuncMask:2,stencilFunc:T.AlwaysStencilFunc,stencilZPass:T.ReplaceStencilOp,stencilFail:T.KeepStencilOp,stencilZFail:T.KeepStencilOp,polygonOffset:true,polygonOffsetFactor:-4,polygonOffsetUnits:-4}));
+hole.position.y=.001;hole.renderOrder=-10;gAnchor.add(hole);
+const GDp=.046;
+const recGeo=new T.ExtrudeGeometry(gs,{depth:GDp,bevelEnabled:false,curveSegments:56});
+recGeo.translate(0,0,-GDp);recGeo.rotateX(-Math.PI/2);
+const recFloor=new T.MeshPhysicalMaterial({color:0x003524,roughness:.55,metalness:0,clearcoat:.15,clearcoatRoughness:.3,side:T.BackSide});
+const recWall=new T.MeshPhysicalMaterial({color:0x00553C,roughness:.4,metalness:0,clearcoat:.5,clearcoatRoughness:.12,side:T.BackSide});
+const recess=new T.Mesh(recGeo,[recFloor,recWall]);recess.renderOrder=1;
+const recWrap=new T.Group();recWrap.add(recess);gAnchor.add(recWrap);
+const SP=.72,ss=512/SP;
+const ic=document.createElement('canvas');ic.width=ic.height=512;const ix=ic.getContext('2d');
+ix.setTransform(ss,0,0,-ss,256,256);ix.beginPath();gPath(ix,(r,a,b,cw)=>ix.arc(0,0,r,a,b,cw));ix.closePath();ix.save();ix.clip();
+ix.beginPath();ix.rect(-2,-2,4,4);gPath(ix,(r,a,b,cw)=>ix.arc(0,0,r,a,b,cw));ix.closePath();
+ix.shadowColor='rgba(0,30,20,.9)';ix.shadowBlur=18;ix.shadowOffsetX=-12;ix.shadowOffsetY=-12;ix.fillStyle='rgba(0,30,20,.9)';ix.fill('evenodd');
+ix.shadowBlur=6;ix.shadowOffsetX=-4;ix.shadowOffsetY=-4;ix.fill('evenodd');ix.restore();
+const inMat=new T.MeshBasicMaterial({map:new T.CanvasTexture(ic),transparent:true,depthWrite:false,opacity:.75});
+const inPlane=new T.Mesh(new T.PlaneGeometry(SP,SP),inMat);inPlane.geometry.rotateX(-Math.PI/2);inPlane.position.y=-GDp+.002;inPlane.renderOrder=2;recWrap.add(inPlane);
+const rc=document.createElement('canvas');rc.width=rc.height=512;const rx=rc.getContext('2d');
+rx.setTransform(ss,0,0,-ss,256,256);rx.beginPath();rx.rect(-2,-2,4,4);gPath(rx,(r,a,b,cw)=>rx.arc(0,0,r,a,b,cw));rx.closePath();rx.save();rx.clip('evenodd');
+rx.save();rx.translate(.006,.006);rx.beginPath();gPath(rx,(r,a,b,cw)=>rx.arc(0,0,r,a,b,cw));rx.closePath();rx.lineWidth=.013;rx.strokeStyle='rgba(225,255,242,.95)';rx.shadowColor='rgba(225,255,242,.8)';rx.shadowBlur=6;rx.stroke();rx.restore();
+rx.save();rx.translate(-.004,-.004);rx.beginPath();gPath(rx,(r,a,b,cw)=>rx.arc(0,0,r,a,b,cw));rx.closePath();rx.lineWidth=.01;rx.strokeStyle='rgba(0,40,28,.55)';rx.shadowColor='rgba(0,40,28,.5)';rx.shadowBlur=8;rx.stroke();rx.restore();rx.restore();
+const rimMat=new T.MeshBasicMaterial({map:new T.CanvasTexture(rc),transparent:true,depthWrite:false,opacity:0,polygonOffset:true,polygonOffsetFactor:-3,polygonOffsetUnits:-3});
+const rimPlane=new T.Mesh(new T.PlaneGeometry(SP,SP),rimMat);rimPlane.geometry.rotateX(-Math.PI/2);rimPlane.position.y=.0015;rimPlane.renderOrder=3;gAnchor.add(rimPlane);
+
+// Glow
+function haloTex(stops){const c=document.createElement('canvas');c.width=c.height=256;const x=c.getContext('2d');const gr=x.createRadialGradient(128,128,0,128,128,128);stops.forEach(s=>gr.addColorStop(s[0],s[1]));x.fillStyle=gr;x.fillRect(0,0,256,256);return new T.CanvasTexture(c)}
+const back=new T.Vector3(6,4.2,6).normalize().multiplyScalar(-3);
+const haloIn=new T.Sprite(new T.SpriteMaterial({map:haloTex([[0,'rgba(0,255,163,1)'],[.45,'rgba(0,255,163,.55)'],[.8,'rgba(0,255,163,.12)'],[1,'rgba(0,255,163,0)']]),transparent:true,depthWrite:false,opacity:0}));
+haloIn.scale.set(4.3,2.1,1);haloIn.position.copy(back);scene.add(haloIn);
+const haloOut=new T.Sprite(new T.SpriteMaterial({map:haloTex([[0,'rgba(0,255,163,.8)'],[.4,'rgba(0,255,163,.3)'],[1,'rgba(0,255,163,0)']]),transparent:true,depthWrite:false,opacity:0}));
+haloOut.scale.set(5.8,3.2,1);haloOut.position.copy(back).multiplyScalar(1.1);scene.add(haloOut);
+
+// Sand
+const tris=[],areas=[];let A=0;const va=new T.Vector3(),vb=new T.Vector3(),vc=new T.Vector3(),e1=new T.Vector3(),e2=new T.Vector3();
+for(let j=0;j+8<raw.length;j+=9){va.fromArray(raw,j);vb.fromArray(raw,j+3);vc.fromArray(raw,j+6);e1.subVectors(vb,va);e2.subVectors(vc,va);const cr=e1.clone().cross(e2);const ar=cr.length()/2;if(ar<1e-9)continue;A+=ar;areas.push(A);tris.push([va.clone(),vb.clone(),vc.clone(),cr.normalize()])}
+function rs(r){let x,y,z;do{x=Math.random()*2-1;y=Math.random()*2-1;z=Math.random()*2-1}while(x*x+y*y+z*z>1);return[x*r,y*r,z*r]}
+const EF=[[.17,-.14],[.52,-.14],[.72,1.14],[1.08,1.12]],ED=[.32,0,0,.32],NE=EF.length;
+const BOW=[[-.85,.5,.7],[.7,.35,-.85],[-.7,-.35,.85],[.85,-.5,-.5]];
+const E=new Float32Array(NE*3),R=new T.Vector3(),Uv=new T.Vector3();
+function basis(){cam.updateMatrixWorld();R.setFromMatrixColumn(cam.matrixWorld,0);Uv.setFromMatrixColumn(cam.matrixWorld,1)}
+function scr(fx,fy,out,o){const sx=cam.left+fx*(cam.right-cam.left),sy=cam.bottom+fy*(cam.top-cam.bottom);out[o]=R.x*sx+Uv.x*sy;out[o+1]=R.y*sx+Uv.y*sy;out[o+2]=R.z*sx+Uv.z*sy}
+const pal=[new T.Color(0x00FFA3),new T.Color(0x00D18C),new T.Color(0x00B37A),new T.Color(0x00805A)];
+function mk(n){return{tg:new Float32Array(n*3),jit:new Float32Array(n*3),c1:new Float32Array(n*3),c2:new Float32Array(n*3),pos:new Float32Array(n*3),col:new Float32Array(n*3),rnd:new Float32Array(n),gr:new Float32Array(n),dA:new Float32Array(n),dS:new Float32Array(n),ph:new Float32Array(n),em:new Uint8Array(n),n}}
+function seed(P,i,o){const j=rs(.14),q1=rs(.3),q2=rs(.22);P.jit[o]=j[0];P.jit[o+1]=j[1];P.jit[o+2]=j[2];P.c1[o]=q1[0];P.c1[o+1]=q1[1];P.c1[o+2]=q1[2];P.c2[o]=q2[0];P.c2[o+1]=q2[1];P.c2[o+2]=q2[2];P.em[i]=(Math.random()*NE)|0;P.ph[i]=Math.random()*6.28;P.rnd[i]=Math.random();const c=pal[(Math.random()*pal.length)|0];P.col[o]=c.r;P.col[o+1]=c.g;P.col[o+2]=c.b}
+const S=mk(16000);
+for(let i=0;i<S.n;i++){const o=i*3,r=Math.random()*A;let lo=0,hi=areas.length-1;while(lo<hi){const m=(lo+hi)>>1;if(areas[m]<r)lo=m+1;else hi=m}
+  const t=tris[lo];let u=Math.random(),v=Math.random();if(u+v>1){u=1-u;v=1-v}
+  for(let q=0;q<3;q++){const a=t[0].getComponent(q);S.tg[o+q]=a+(t[1].getComponent(q)-a)*u+(t[2].getComponent(q)-a)*v-t[3].getComponent(q)*.02}
+  seed(S,i,o);S.dA[i]=.45*Math.random();S.dS[i]=.3*Math.random()+.15*((S.tg[o]+half)/(2*half))}
+const D=mk(220);
+for(let i=0;i<D.n;i++){const o=i*3,a=Math.random()*6.28,s=1+Math.random()*.4;D.tg[o]=Math.cos(a)*2.25*s;D.tg[o+1]=(Math.random()-.5)*2.2;D.tg[o+2]=Math.sin(a)*1.3*s;seed(D,i,o);D.dA[i]=.5*Math.random();D.dS[i]=.45*Math.random()}
+const pg=new T.BufferGeometry();pg.setAttribute('position',new T.BufferAttribute(S.pos,3));pg.setAttribute('aCol',new T.BufferAttribute(S.col,3));pg.setAttribute('aR',new T.BufferAttribute(S.rnd,1));pg.setAttribute('aG',new T.BufferAttribute(S.gr,1));
+const PU={uSize:{value:1.6},uPix:{value:renderer.getPixelRatio()},uOp:{value:1},uBase:{value:BASE}};
+const vs='attribute vec3 aCol;attribute float aR,aG;uniform float uSize,uPix;varying vec3 vC;varying float vG;void main(){vC=aCol;vG=aG;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);gl_PointSize=uPix*uSize*(1.+aG*(2.4+aR*2.4));}';
+function fs(landed){return 'uniform float uOp;uniform vec3 uBase;varying vec3 vC;varying float vG;void main(){'+(landed?'if(vG<=.02)discard;':'if(vG>.02)discard;')+'vec2 p=gl_PointCoord-.5;float d=length(p);if(d>.5)discard;float a=mix(smoothstep(.5,.25,d),1.,vG);gl_FragColor=vec4(mix(vC,uBase,clamp(vG*2.,0.,1.)),a*uOp);}'}
+const pmFly=new T.ShaderMaterial({uniforms:PU,transparent:true,depthWrite:false,vertexShader:vs,fragmentShader:fs(false)});
+const pmLand=new T.ShaderMaterial({uniforms:PU,transparent:true,depthWrite:false,vertexShader:vs,fragmentShader:fs(true),stencilWrite:true,stencilRef:1,stencilFuncMask:1,stencilWriteMask:0,stencilFunc:T.EqualStencilFunc,stencilZPass:T.KeepStencilOp,stencilFail:T.KeepStencilOp,stencilZFail:T.KeepStencilOp});
+const sandFly=new T.Points(pg,pmFly),sandLand=new T.Points(pg,pmLand);sandFly.frustumCulled=sandLand.frustumCulled=false;scene.add(sandFly);scene.add(sandLand);
+const dg=new T.BufferGeometry();dg.setAttribute('position',new T.BufferAttribute(D.pos,3));dg.setAttribute('color',new T.BufferAttribute(D.col,3));
+const dust=new T.Points(dg,new T.PointsMaterial({size:1.6,vertexColors:true,transparent:true,opacity:.55,depthWrite:false}));dust.frustumCulled=false;scene.add(dust);
+
+// Interaction
+let mx=0,my=0,smx=0,smy=0;const ndc=new T.Vector2(),ray=new T.Raycaster();
+function setNdc(e){const r=hero.getBoundingClientRect();ndc.set((e.clientX-r.left)/r.width*2-1,-((e.clientY-r.top)/r.height*2-1))}
+function overIngot(){ray.setFromCamera(ndc,cam);return ray.intersectObject(mesh).length>0}
+hero.addEventListener('pointermove',e=>{setNdc(e);mx=ndc.x;my=-ndc.y;hero.style.cursor=(state==='hold'&&overIngot())?'pointer':''});
+hero.addEventListener('pointerleave',()=>{mx=my=0});
+hero.addEventListener('click',e=>{if(e.target.closest('a'))return;setNdc(e);if(state==='hold'&&overIngot())burst()});
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let clock=0,state=reduce?'hold':'in',st=0,last=performance.now();
+function burst(){if(state==='hold'){state='out';st=0;hero.style.cursor=''}}
+const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2,cl=v=>v<0?0:v>1?1:v,sm=t=>t*t*(3-2*t);
+function kOf(P,i){if(state==='in')return 1-ease(cl(((st-ED[P.em[i]])/3-P.dA[i])/.55));if(state==='out')return ease(cl(((st-.45)/1.6-P.dS[i])/.55));return 0}
+const C1a=new Float32Array(NE*3),C2a=new Float32Array(NE*3);
+function upd(P,m,isDust){const cen=[m[12],m[13],m[14]];
+  for(let e=0;e<NE;e++){const o=e*3;for(let q=0;q<3;q++){const ev=E[o+q];C1a[o+q]=cen[q]+(ev-cen[q])*.3+BOW[e][q]*.6;C2a[o+q]=cen[q]+(ev-cen[q])*.65+BOW[e][q]}}
+  for(let i=0;i<P.n;i++){const k=kOf(P,i);const o=i*3;let x=P.tg[o],y=P.tg[o+1],z=P.tg[o+2];
+    if(isDust){x+=Math.sin(clock*.4+P.ph[i])*.07;y+=Math.sin(clock*.55+P.ph[i]*1.3)*.08;z+=Math.cos(clock*.45+P.ph[i])*.07}
+    const tx=m[0]*x+m[4]*y+m[8]*z+m[12],ty=m[1]*x+m[5]*y+m[9]*z+m[13],tz=m[2]*x+m[6]*y+m[10]*z+m[14];
+    if(k<=0){P.pos[o]=tx;P.pos[o+1]=ty;P.pos[o+2]=tz;continue}
+    const e=P.em[i]*3,u=1-k,w0=u*u*u,w1=3*u*u*k,w2=3*u*k*k,w3=k*k*k;
+    P.pos[o]=w0*tx+w1*(C1a[e]+P.c1[o])+w2*(C2a[e]+P.c2[o])+w3*(E[e]+P.jit[o]);
+    P.pos[o+1]=w0*ty+w1*(C1a[e+1]+P.c1[o+1])+w2*(C2a[e+1]+P.c2[o+1])+w3*(E[e+1]+P.jit[o+1]);
+    P.pos[o+2]=w0*tz+w1*(C1a[e+2]+P.c1[o+2])+w2*(C2a[e+2]+P.c2[o+2])+w3*(E[e+2]+P.jit[o+2])}}
+function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;clock+=dt;st+=dt;
+  if(state==='in'&&st>3.9){state='hold';st=0}
+  if(state==='out'&&st>2.7){state='in';st=0}
+  let prog=1,pop=0,glow=0,gGlobal=-1;
+  if(state==='in'){prog=sm(cl((st-3.2)/.3));pop=1-cl((st-3.55)/.25);glow=Math.exp(-Math.pow((st-3.5)/.5,2))}
+  else if(state==='out'){prog=1-sm(cl(st/.3));pop=1;gGlobal=1-cl((st-.3)/.3);glow=.45*Math.exp(-Math.pow((st-.05)/.35,2))}
+  U.uProg.value=prog;U.uDir.value=state==='out'?1:0;mesh.visible=prog>0;
+  const gs2=state==='out'?1-sm(cl(st/.18)):sm(cl((prog-.75)/.25));
+  hole.visible=recess.visible=inPlane.visible=rimPlane.visible=gs2>0.02;recWrap.scale.set(1,Math.max(gs2,.02),1);inMat.opacity=.75*gs2;rimMat.opacity=gs2;
+  mat.emissiveIntensity=.1+glow*.95;U.uRim.value=.18+glow*.55;
+  haloIn.material.opacity=prog*(.3+glow*.6);haloOut.material.opacity=prog*(.14+glow*.45);
+  PU.uOp.value=pop;const sv=pop>.001;sandFly.visible=sandLand.visible=mask.visible=sv;
+  smx+=(mx-smx)*.06;smy+=(my-smy)*.06;
+  group.rotation.y=-.1+Math.sin(clock*.35)*.12+smx*.3;group.rotation.x=smy*.12;group.position.y=Math.sin(clock*1.1)*.06;
+  group.updateMatrixWorld();basis();for(let e=0;e<NE;e++)scr(EF[e][0],EF[e][1],E,e*3);
+  const m=group.matrixWorld.elements;
+  if(sv){upd(S,m,false);
+    for(let i=0;i<S.n;i++){if(gGlobal>=0)S.gr[i]=gGlobal;else{const ca=ED[S.em[i]]+3*(S.dA[i]+.55);S.gr[i]=sm(cl((st-ca)/.22))}}
+    pg.attributes.position.needsUpdate=true;pg.attributes.aG.needsUpdate=true}
+  upd(D,m,true);dg.attributes.position.needsUpdate=true;
+  renderer.render(scene,cam);requestAnimationFrame(frame)}
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
