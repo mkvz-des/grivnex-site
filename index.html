@@ -153,7 +153,7 @@ const k5=new T.DirectionalLight(0xffffff,.95);k5.position.set(2,3,6);scene.add(k
 function rp(pts,r){const s=new T.Shape(),n=pts.length;for(let i=0;i<n;i++){const p0=pts[(i-1+n)%n],p1=pts[i],p2=pts[(i+1)%n];const v1=new T.Vector2().subVectors(p0,p1).normalize(),v2=new T.Vector2().subVectors(p2,p1).normalize();const a=p1.clone().addScaledVector(v1,r),b=p1.clone().addScaledVector(v2,r);if(i===0)s.moveTo(a.x,a.y);else s.lineTo(a.x,a.y);s.quadraticCurveTo(p1.x,p1.y,b.x,b.y)}s.closePath();return s}
 // Hexagonal grivna of Kyivan Rus: concave sides, sharp thin rims, faceted top with a flat table
 function grivnaGeo(){
-  const L=1.6,HM=.8,HE=.42,T0=.36,TB=.2,E0=.17,EB=.15,N=160,M=80;
+  const L=1.6,HM=.8,HE=.42,T0=.28,TB=.16,E0=.13,EB=.11,N=160,M=80;
   const SC=.24,RC=.22,ax=x=>Math.sqrt(x*x+SC*SC)-SC,AL=ax(L);
   const wOf=x=>{const a=Math.abs(x);let w=HE+(HM-HE)*Math.pow(Math.max(0,1-ax(x)/AL),2);if(a>L-RC){const q=(a-(L-RC))/RC;w*=Math.sqrt(Math.max(0,1-q*q))*.7+.3}return w};
   const TOf=x=>T0*(.9+.1*(1-(x/L)*(x/L)));
@@ -195,7 +195,7 @@ const mask=new T.Mesh(g,new T.MeshBasicMaterial({colorWrite:false,depthWrite:fal
 mask.renderOrder=-5;group.add(mask);
 
 // Engraved G (placeholder for the final logo)
-const GR=.2,Gr=.112,Gt=GR-Gr,a0=Math.PI/4,Gi=Math.sqrt(Gr*Gr-Gt*Gt);
+const GR=.25,Gr=.14,Gt=GR-Gr,a0=Math.PI/4,Gi=Math.sqrt(Gr*Gr-Gt*Gt);
 function gPath(p,arcFn){p.moveTo(GR*Math.cos(a0),GR*Math.sin(a0));arcFn(GR,a0,Math.PI*2,false);p.lineTo(.03,0);p.lineTo(.03,-Gt);p.lineTo(Gi,-Gt);arcFn(Gr,-Math.asin(Gt/Gr),a0-Math.PI*2,true)}
 const gs=new T.Shape();gPath(gs,(r,a,b,cw)=>gs.absarc(0,0,r,a,b,cw));gs.closePath();
 const gAnchor=new T.Group();gAnchor.position.set(0,yh,.02);group.add(gAnchor);
