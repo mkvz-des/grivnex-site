@@ -352,9 +352,10 @@ requestAnimationFrame(frame);
     cur=reduce?target:cur+(target-cur)*.12;if(Math.abs(target-cur)<.0005)cur=target;
     const e=cur*cur*cur*(cur*(cur*6-15)+10);
     const mob=w<=760,pad=mob?20:.108*w,navH=nav?nav.getBoundingClientRect().height:0,need=navH+12;
-    const sMin=mob?Math.min(1-2*pad/w,(vh-need-pad)/vh):1-2*pad/w,s=1-e*(1-sMin);
-    const r=Math.min(1,cur/.3),er=r*(2-r);
-    const topGap=(1-sMin)*vh/2,ty=e*Math.max(0,need-topGap);
+    const r=Math.min(1,cur/(mob?.6:.3)),er=r*(2-r);
+    // On phones the shrink follows the same curve as the corners, so the card never touches the screen edges.
+    const sMin=mob?Math.min(1-2*pad/w,(vh-need-pad)/vh):1-2*pad/w,g=mob?er:e,s=1-g*(1-sMin);
+    const ty=mob?(1-s)*vh/2-pad*g:0;
     hero.style.transform=s<.9999?'translateY('+ty.toFixed(1)+'px) scale('+s.toFixed(4)+')':'';
     hero.style.borderRadius=(er*RAD/s).toFixed(2)+'px';
     if(nav){const nr=nav.getBoundingClientRect(),hr=hero.getBoundingClientRect(),cy=nr.top+nr.height/2;
