@@ -76,11 +76,13 @@ body.go .copy .actions{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .5s both}
 .gate .logo{font-size:28px}
 @media (max-width:760px){
   :root{--pad:20px}
-  .copy{top:clamp(110px,18vh,160px);transform:none;right:var(--pad)}
+  .copy{top:clamp(96px,14vh,140px);transform:none;right:var(--pad);text-align:center}
+  .copy h1,.copy .lead,.copy .actions{transform-origin:50% 50%}
   h1{white-space:normal;font-size:clamp(32px,9vw,44px)}
   .lead,.actions{font-size:16px}
-  .lead{width:auto;max-width:20em}
-  .hint{left:var(--pad);right:auto}
+  .lead{width:auto;max-width:20em;margin-left:auto;margin-right:auto}
+  .actions{justify-content:center}
+  .hint{left:0;right:0;text-align:center}
 }
 </style>
 </head>
@@ -137,7 +139,7 @@ cam.position.set(6,4.2,6);cam.lookAt(0,0,0);
 function size(){
   const w=wrap.clientWidth,h=wrap.clientHeight;renderer.setSize(w,h);const a=w/h;
   if(w>760){const V=2.5,FX=.68,W2=2*V*a;cam.left=-FX*W2;cam.right=(1-FX)*W2;cam.top=V*1.06;cam.bottom=-V*.94}
-  else{const V=Math.max(2.4,2.9/a),FY=.3;cam.left=-V*a;cam.right=V*a;cam.top=(1-FY)*2*V;cam.bottom=-FY*2*V}
+  else{const V=Math.max(1.9,2.2/a),FY=.36;cam.left=-V*a;cam.right=V*a;cam.top=(1-FY)*2*V;cam.bottom=-FY*2*V}
   cam.updateProjectionMatrix();
 }
 size();new ResizeObserver(size).observe(wrap);
@@ -351,7 +353,8 @@ requestAnimationFrame(frame);
     const e=cur*cur*cur*(cur*(cur*6-15)+10);
     const pad=w>760?.108*w:20,s=1-e*(2*pad/w);
     const r=Math.min(1,cur/.3),er=r*(2-r);
-    hero.style.transform=s<.9999?'scale('+s.toFixed(4)+')':'';
+    const navH=nav?nav.getBoundingClientRect().height:0,need=navH+12,topGap=(1-s)*vh/2,ty=e*Math.max(0,need-topGap);
+    hero.style.transform=s<.9999?'translateY('+ty.toFixed(1)+'px) scale('+s.toFixed(4)+')':'';
     hero.style.borderRadius=(er*RAD/s).toFixed(2)+'px';
     if(nav){const nr=nav.getBoundingClientRect(),hr=hero.getBoundingClientRect(),cy=nr.top+nr.height/2;
       const inside=cy>hr.top&&cy<hr.bottom;nav.classList.toggle('light',!inside);
