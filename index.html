@@ -151,9 +151,11 @@ const k4=new T.DirectionalLight(0xffffff,.5);k4.position.set(-3,5,1);scene.add(k
 const k5=new T.DirectionalLight(0xffffff,.95);k5.position.set(2,3,6);scene.add(k5);
 
 function rp(pts,r){const s=new T.Shape(),n=pts.length;for(let i=0;i<n;i++){const p0=pts[(i-1+n)%n],p1=pts[i],p2=pts[(i+1)%n];const v1=new T.Vector2().subVectors(p0,p1).normalize(),v2=new T.Vector2().subVectors(p2,p1).normalize();const a=p1.clone().addScaledVector(v1,r),b=p1.clone().addScaledVector(v2,r);if(i===0)s.moveTo(a.x,a.y);else s.lineTo(a.x,a.y);s.quadraticCurveTo(p1.x,p1.y,b.x,b.y)}s.closePath();return s}
-const shape=rp([new T.Vector2(-.82,0),new T.Vector2(.82,0),new T.Vector2(.56,.76),new T.Vector2(-.56,.76)],.22);
-let g=new T.ExtrudeGeometry(shape,{depth:2.7,bevelEnabled:true,bevelThickness:.3,bevelSize:.16,bevelSegments:12,curveSegments:28});
-g.rotateY(Math.PI/2);g.center();
+// Hexagonal grivna of Kyivan Rus: elongated hexagon in plan, narrow flat ends, widest in the middle
+const HL=1.62,HM=.78,HE=.36;
+const shape=rp([new T.Vector2(-HL,-HE),new T.Vector2(0,-HM),new T.Vector2(HL,-HE),new T.Vector2(HL,HE),new T.Vector2(0,HM),new T.Vector2(-HL,HE)],.16);
+let g=new T.ExtrudeGeometry(shape,{depth:.4,bevelEnabled:true,bevelThickness:.2,bevelSize:.14,bevelSegments:12,curveSegments:28});
+g.rotateX(-Math.PI/2);g.center();
 const raw=g.toNonIndexed().attributes.position.array;
 if(T.BufferGeometryUtils){g.deleteAttribute('normal');g.deleteAttribute('uv');g=T.BufferGeometryUtils.mergeVertices(g,1e-4)}
 g.computeVertexNormals();g.computeBoundingBox();
