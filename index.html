@@ -793,30 +793,30 @@ document.querySelectorAll('.btn .roll').forEach(r=>{const s=r.dataset.t||r.textC
 // the heading turns black chunk by chunk with the cards
 (function(){const cs=[...document.querySelectorAll('.info .card')],L=document.querySelector('.info-l'),ws=[...document.querySelectorAll('.info h2 .w')];if(!cs.length||!L)return;let tick=false;
   function upd(){tick=false;const lr=L.getBoundingClientRect(),mid=lr.top+lr.height/2;let idx=-1,past=-1;
-    cs.forEach((c,i)=>{const r=c.getBoundingClientRect();if(r.top+r.height/2<=mid+4)past=i});idx=past;
+    cs.forEach((c,i)=>{const r=c.getBoundingClientRect(),cc=r.top+r.height/2,band=r.height*.2;if(cc<=mid+band)past=i;if(Math.abs(cc-mid)<=band)idx=i});
     cs.forEach((c,i)=>c.classList.toggle('on',i===idx));
     ws.forEach((w,i)=>w.classList.toggle('on',i<=past))}
   addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(upd)}},{passive:true});addEventListener('resize',upd);upd()})();
-// Step scrolling through the cards: one wheel gesture = next state (outline -> card 1 -> card 2 -> card 3)
+// Soft snapping through the cards: scrolling stays free; when you stop inside the block,
+// the page glides to the nearest resting point (outline -> card 1 -> gap -> card 2 -> gap -> card 3)
 (function(){const sec=document.getElementById('info'),left=document.querySelector('.info-l'),wrap=document.querySelector('.info .cards'),cs=[...document.querySelectorAll('.info .card')];
-  if(!sec||!left||!cs.length)return;let states=[],busy=false,last=0;
+  if(!sec||!left||!cs.length)return;let pts=[],timer=0,snapping=false;
   function calc(){const vh=innerHeight,lh=left.offsetHeight,ch=cs[0].offsetHeight;
     wrap.style.setProperty('--cpt',Math.max(24,Math.round(lh/2-ch/2+48))+'px');
     const stickyTop=vh*.34,mid=stickyTop+lh/2,y=scrollY,secTop=sec.getBoundingClientRect().top+y;
     const s0=secTop+parseFloat(getComputedStyle(sec).paddingTop)-stickyTop;
-    states=[s0].concat(cs.map(c=>{const r=c.getBoundingClientRect();return r.top+y+r.height/2-mid+16}))}
+    const c=cs.map(el=>{const r=el.getBoundingClientRect();return r.top+y+r.height/2-mid});
+    pts=[s0];c.forEach((v,i)=>{pts.push(v);if(i<c.length-1)pts.push((v+c[i+1])/2)})}
   calc();addEventListener('resize',calc);if(document.fonts)document.fonts.ready.then(calc);setTimeout(calc,1200);
-  const ease=t=>1-Math.pow(1-t,4);
-  addEventListener('wheel',e=>{const L=window.grvLenis;if(!L||!states.length||document.body.classList.contains('lab-open'))return;
-    if(e.target.closest&&e.target.closest('[data-lenis-prevent]'))return;
-    const y=L.animatedScroll!=null?L.animatedScroll:scrollY,vh=innerHeight,first=states[0],lastS=states[states.length-1];
-    const inZone=y>first-vh*.55&&y<lastS+vh*.55;if(!inZone)return;
-    if(busy||Date.now()-last<420){e.preventDefault();e.stopImmediatePropagation();return}
-    const d=e.deltaY;if(Math.abs(d)<2)return;let target=null;
-    if(d>0){if(y<lastS-2)target=states.find(s=>s>y+2)}else{if(y>first+2)target=[...states].reverse().find(s=>s<y-2)}
-    if(target==null)return;
-    e.preventDefault();e.stopImmediatePropagation();busy=true;last=Date.now();
-    L.scrollTo(target,{duration:.9,easing:ease,lock:true,force:true,onComplete:()=>{busy=false;last=Date.now()}})},{passive:false,capture:true});
+  const ease=t=>1-Math.pow(1-t,3);
+  function settle(){const L=window.grvLenis;if(!L||!pts.length||snapping)return;
+    const y=L.targetScroll!=null?L.targetScroll:scrollY,vh=innerHeight;
+    if(y<pts[0]-vh*.35||y>pts[pts.length-1]+vh*.12)return;
+    let best=pts[0];pts.forEach(p=>{if(Math.abs(p-y)<Math.abs(best-y))best=p});
+    if(Math.abs(best-y)<2)return;snapping=true;
+    L.scrollTo(best,{duration:.7,easing:ease,onComplete:()=>{snapping=false}});setTimeout(()=>{snapping=false},900)}
+  function arm(){clearTimeout(timer);timer=setTimeout(settle,170)}
+  addEventListener('wheel',arm,{passive:true});addEventListener('touchend',arm,{passive:true});addEventListener('keyup',arm);
 })();
 </script>
 <script>
