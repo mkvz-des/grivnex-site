@@ -1149,7 +1149,7 @@ document.querySelectorAll('.btn .roll').forEach(r=>{const s=r.dataset.t||r.textC
   const hws=[...sec.querySelectorAll('h2 .hw')];
   function upd(){tick=false;const r=sec.getBoundingClientRect(),vh=innerHeight,p=-r.top/Math.max(1,r.height-vh);
     // heading: word by word (logo last) before the first card comes in
-    const th=(vh*.95-r.top)/(vh*.5);hws.forEach((w,i)=>w.classList.toggle('on',th>=(i+.6)/hws.length));
+    const th=(vh*.72-r.top)/(vh*.27);hws.forEach((w,i)=>w.classList.toggle('on',th>=i/(hws.length-1)-.001));
     st.forEach((s,i)=>{const on=i===0?r.top<vh*.45:p>=i*.3;
       if(on&&!s.classList.contains('in')){s.classList.add('in');clearTimeout(s.tm);s.tm=setTimeout(()=>s.classList.add('run'),950)}
       else if(!on&&s.classList.contains('in')){s.classList.remove('in','run');clearTimeout(s.tm)}})}
