@@ -829,23 +829,8 @@ document.querySelectorAll('.btn .roll').forEach(r=>{const s=r.dataset.t||r.textC
     const best=bp.y;lastRest=best;
     if(Math.abs(best-y)<2)return;snapping=true;
     L.scrollTo(best,{duration:.7,easing:ease,onComplete:()=>{snapping=false}});setTimeout(()=>{snapping=false},900)}
-  // Catch: a fast spin that would fly past the next card stops on that card (while it is in colour);
-  // the rest of that spin is swallowed, and the next spin scrolls on freely
-  let gStart=0,lastWheel=0,held=false,landed=false,heldAt=0,landAt=0;
-  function release(){const L=window.grvLenis;held=false;if(L){L.start();gStart=L.animatedScroll}}
-  function holdLoop(){if(!held)return;const n=performance.now();if(landed&&!landAt)landAt=n;
-    if(n-heldAt>900||landed&&(n-lastWheel>90||n-landAt>250)){release();return}setTimeout(holdLoop,16)}
-  function catchWheel(e){const L=window.grvLenis,n=performance.now();if(!L||!e.deltaY)return;
-    const gap=n-lastWheel;lastWheel=n;if(held)return;
-    if(gap>200)gStart=L.animatedScroll;
-    const dir=Math.sign(e.deltaY),t=L.targetScroll,cards=pts.filter(p=>p.w<1).map(p=>p.y);
-    const next=dir>0?cards.find(c=>c>gStart+8):[...cards].reverse().find(c=>c<gStart-8);
-    if(next==null||(dir>0?t<=next+30:t>=next-30))return;
-    held=true;landed=false;landAt=0;heldAt=n;snapping=true;lastRest=next;clearTimeout(timer);L.stop();
-    L.scrollTo(next,{force:true,duration:.5,easing:ease,onComplete:()=>{landed=true;snapping=false}});
-    setTimeout(()=>{landed=true;snapping=false},650);setTimeout(holdLoop,16)}
-  function arm(e){if(e&&e.deltaY)lastDir=Math.sign(e.deltaY);clearTimeout(timer);if(!held)timer=setTimeout(settle,130)}
-  addEventListener('wheel',catchWheel,{passive:true});addEventListener('wheel',arm,{passive:true});addEventListener('touchend',arm,{passive:true});addEventListener('keyup',arm);
+  function arm(e){if(e&&e.deltaY)lastDir=Math.sign(e.deltaY);clearTimeout(timer);timer=setTimeout(settle,130)}
+  addEventListener('wheel',arm,{passive:true});addEventListener('touchend',arm,{passive:true});addEventListener('keyup',arm);
 })();
 </script>
 <script>
