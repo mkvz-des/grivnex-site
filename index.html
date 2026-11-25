@@ -121,12 +121,12 @@ body.t2 .copy .lead2{display:block}
 .h1b .fix{display:block;color:rgba(244,246,245,.46)}
 .h1b .rot{display:block;position:relative;height:1.06em}
 .h1b .ph{position:absolute;left:0;top:0;white-space:nowrap}
-.h1b .wd{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .06em .14em;margin:0 -.06em -.14em}
-.h1b .wd>span{display:inline-block;transform:translateY(110%);filter:blur(12px);transition:transform .75s cubic-bezier(.2,.85,.2,1),filter .7s ease-out}
-.h1b .ph.in .wd>span{transform:none;filter:blur(0)}
-.h1b .ph{transition:opacity .4s ease,filter .4s ease-in}
+.h1b .wd{display:inline-block;vertical-align:top}
+.h1b .wd>span{display:inline-block;transform:translateY(.55em);opacity:0;filter:blur(12px);transition:transform .6s cubic-bezier(.2,.85,.2,1),filter .42s ease-out,opacity .35s ease-out}
+.h1b .ph.in .wd>span{transform:none;filter:blur(0);opacity:1}
+.h1b .ph{transition:opacity .3s ease,filter .3s ease-in}
 .h1b .ph.out{opacity:0;filter:blur(14px)}
-.h1b .ph.out .wd>span{transform:none;filter:blur(0)}
+.h1b .ph.out .wd>span{transform:none;filter:blur(0);opacity:1}
 body.caps .h1b,body.caps .copy h1{text-transform:uppercase;font-size:clamp(26px,2.55vw,52px);letter-spacing:-.005em}
 .powers{display:flex;align-items:center;gap:.7em;margin-top:clamp(28px,4.2vh,56px);font-size:clamp(13px,.95vw,17px);color:var(--muted)}
 .powers .pw-l{flex:none;color:var(--soft)}
@@ -769,7 +769,7 @@ document.querySelectorAll('.btn .roll').forEach(r=>{const s=r.dataset.t||r.textC
   const phrases=['для переказів за секунди','щоб гроші були лише твої','для оплат без кордонів','для переказів рідним','щоб платити 24/7'];
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,HOLD=2800,STAG=70;let i=0,cur=null;
   function make(s){const ph=document.createElement('span');ph.className='ph';
-    s.split(' ').forEach((w,k)=>{const o=document.createElement('span');o.className='wd';const n=document.createElement('span');n.textContent=w;n.style.transitionDelay=(old0?380:0)+k*STAG+'ms';o.appendChild(n);ph.appendChild(o);ph.appendChild(document.createTextNode(' '))});
+    s.split(' ').forEach((w,k)=>{const o=document.createElement('span');o.className='wd';const n=document.createElement('span');n.textContent=w;n.style.transitionDelay=(old0?280:0)+k*STAG+'ms';o.appendChild(n);ph.appendChild(o);ph.appendChild(document.createTextNode(' '))});
     box.appendChild(ph);return ph}
   let old0=false;
   function show(){const old=cur;old0=!!old;cur=make(phrases[i]);
