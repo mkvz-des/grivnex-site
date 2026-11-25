@@ -84,6 +84,37 @@ body.go .copy .actions{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .5s both}
   .actions{justify-content:center}
   .hint{left:0;right:0;text-align:center}
 }
+.lab-tab{position:fixed;z-index:45;right:0;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:8px;writing-mode:vertical-rl;padding:16px 10px;border:1px solid var(--line);border-right:0;border-radius:12px 0 0 12px;background:rgba(20,21,21,.82);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);color:var(--text);font:inherit;font-size:13px;letter-spacing:.04em;cursor:pointer;transition:background .2s}
+.lab-tab:hover{background:rgba(32,34,33,.92)}
+.lab-tab svg{width:16px;height:16px;transform:rotate(90deg)}
+.lab-veil{position:fixed;inset:0;z-index:46;background:rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .35s}
+.lab{position:fixed;z-index:47;top:0;right:0;bottom:0;width:min(380px,90vw);display:flex;flex-direction:column;background:rgba(17,18,18,.9);-webkit-backdrop-filter:blur(22px) saturate(1.3);backdrop-filter:blur(22px) saturate(1.3);border-left:1px solid var(--line);color:var(--text);transform:translateX(102%);transition:transform .5s cubic-bezier(.2,.8,.2,1);box-shadow:-30px 0 60px rgba(0,0,0,.35)}
+body.lab-open .lab{transform:none}
+body.lab-open .lab-veil{opacity:1;pointer-events:auto}
+.lab-head{display:flex;align-items:center;justify-content:space-between;padding:22px 22px 14px;border-bottom:1px solid var(--line)}
+.lab-head b{font-weight:500;font-size:18px}
+.lab-head small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.lab-x{width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--text);font-size:18px;cursor:pointer}
+.lab-body{flex:1;overflow-y:auto;padding:8px 22px 22px}
+.lab-sec{padding:16px 0;border-bottom:1px solid var(--line)}
+.lab-sec:last-child{border-bottom:0}
+.lab-sec h3{margin:0 0 12px;font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.opt{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:12px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.02);color:var(--text);font:inherit;font-size:13px;text-align:left;cursor:pointer;transition:border-color .2s,background .2s}
+.opt:hover{background:rgba(255,255,255,.05)}
+.opt[aria-pressed="true"]{border-color:var(--brand);background:rgba(31,193,132,.08)}
+.opt[disabled]{opacity:.45;cursor:default}
+.opt .sw{width:100%;height:26px;border-radius:8px}
+.opt .pv{width:100%;height:44px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#0b0b0b}
+.opt .pv img,.opt .pv svg{max-width:80%;max-height:30px}
+.opt small{color:var(--muted);font-size:11px}
+.lab-row{display:flex;align-items:center;gap:10px;margin-top:10px;font-size:13px;color:var(--muted)}
+.lab-row input[type=color]{width:38px;height:30px;border:1px solid var(--line);border-radius:8px;background:transparent;padding:2px;cursor:pointer}
+.lab-btn{width:100%;margin-top:4px;padding:11px;border:1px solid var(--line);border-radius:12px;background:transparent;color:var(--text);font:inherit;font-size:14px;cursor:pointer}
+.lab-btn:hover{background:rgba(255,255,255,.05)}
+.lab-note{margin:10px 0 0;font-size:12px;line-height:1.45;color:var(--muted)}
+.logo img.custom{height:1.32em;width:auto;flex:none}
+@media (max-width:760px){.lab-tab{padding:12px 8px;font-size:12px}}
 </style>
 </head>
 <body>
@@ -101,6 +132,35 @@ body.go .copy .actions{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .5s both}
     <div class="menu"><a href="#info">Про Grivnex</a><a href="#">Токен</a><a href="#">Спільнота</a></div>
     <a class="nav-cta" href="#">Приєднатись</a>
   </nav>
+<button class="lab-tab" id="labTab" type="button" aria-controls="lab" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>Варіанти</button>
+<div class="lab-veil" id="labVeil"></div>
+<aside class="lab" id="lab" aria-label="Варіанти дизайну" aria-hidden="true">
+  <div class="lab-head"><div><b>Варіанти</b><small>Бачиш лише ти, у цьому браузері</small></div><button class="lab-x" id="labX" type="button" aria-label="Закрити">×</button></div>
+  <div class="lab-body">
+    <section class="lab-sec"><h3>Логотип</h3>
+      <div class="opts" id="optLogo">
+        <button class="opt" type="button" data-logo="line"><span class="pv" id="pvLine"></span>Лінійний знак<small>поточний</small></button>
+        <button class="opt" type="button" data-logo="text"><span class="pv"><span style="font-weight:500;font-size:16px">Grivnex</span></span>Лише напис<small>без знака</small></button>
+        <button class="opt" type="button" data-logo="custom" id="optCustom"><span class="pv" id="pvCustom"><small>немає файлу</small></span>Свій SVG / PNG<small>завантаж нижче</small></button>
+      </div>
+      <input type="file" id="logoFile" accept=".svg,image/svg+xml,image/png,image/webp" hidden>
+      <button class="lab-btn" type="button" id="logoUpload" style="margin-top:10px">Завантажити знак…</button>
+    </section>
+    <section class="lab-sec"><h3>3D-об'єкт на головній</h3>
+      <div class="opts" id="optObj">
+        <button class="opt" type="button" data-obj="grivna">Гривна<small>шестикутна</small></button>
+        <button class="opt" type="button" data-obj="pill">Злиток-пігулка<small>перша версія</small></button>
+        <button class="opt" type="button" disabled>Свій 3D (.glb)<small>скоро</small></button>
+      </div>
+      <p class="lab-note">Після вибору сторінка перезавантажиться, щоб пісок зібрав нову форму.</p>
+    </section>
+    <section class="lab-sec"><h3>Кольори</h3>
+      <div class="opts" id="optColor"></div>
+      <div class="lab-row"><span>Свій градієнт</span><input type="color" id="cc0" aria-label="Темний колір"><input type="color" id="cc1" aria-label="Світлий колір"></div>
+    </section>
+    <section class="lab-sec"><button class="lab-btn" type="button" id="labReset">Скинути все до стандартного</button></section>
+  </div>
+</aside>
 <div class="pin">
 <section class="hero" id="hero">
   <div id="stage"></div>
@@ -122,6 +182,21 @@ body.go .copy .actions{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .5s both}
   </div>
 </section>
 
+<script>
+// Design lab state: logo, 3D object and colour variants (per viewer, stored in this browser only)
+window.GRIVNEX_PRESETS={
+  electric:{name:'Електричний смарагд',c0:'#009466',c1:'#00E092',pal:['#00FFA3','#00D18C','#00B37A','#00805A'],base:'#00B97C',glow:'#00FFA3',brand:'#1FC184',hi:'#2BE39B'},
+  imperial:{name:'Імперський смарагд',c0:'#007A5E',c1:'#2DFFA0',pal:['#2DFFA0','#1FD48A','#009B77','#006B53'],base:'#00A884',glow:'#2DFFA0',brand:'#19B783',hi:'#2DFFA0'},
+  glass:{name:'Смарагдове скло',c0:'#007F68',c1:'#7DFFCE',pal:['#7DFFCE','#3BE0AA','#00C389','#007F68'],base:'#2BC79B',glow:'#7DFFCE',brand:'#2BC79B',hi:'#7DFFCE'},
+  aqua:{name:'Зелений → аква',c0:'#16A34A',c1:'#38F9D7',pal:['#43E97B','#38F9D7','#1FBF8C','#0E7490'],base:'#2CC9A0',glow:'#38F9D7',brand:'#22C38E',hi:'#38F9D7'},
+  silver:{name:'Срібло',c0:'#4F575C',c1:'#AEB6BA',pal:['#FFFFFF','#CFD6DA','#9AA3A8','#6E777C'],base:'#B9C1C5',glow:'#DDE6EA',brand:'#C9D1D5',hi:'#FFFFFF'}
+};
+window.GRIVNEX_LAB=(function(){const d={logo:'line',logoData:'',obj:'grivna',color:'electric',c0:'#009466',c1:'#00E092'};
+  try{return Object.assign(d,JSON.parse(localStorage.getItem('grivnex-lab')||'{}'))}catch(e){return d}})();
+window.grivnexPalette=function(L){L=L||window.GRIVNEX_LAB;const P=window.GRIVNEX_PRESETS;if(L.color!=='custom')return P[L.color]||P.electric;
+  const mix=(a,b,t)=>'#'+[0,2,4].map(i=>Math.round(parseInt(a.substr(1+i,2),16)*(1-t)+parseInt(b.substr(1+i,2),16)*t).toString(16).padStart(2,'0')).join('');
+  return{name:'Свій',c0:L.c0,c1:L.c1,pal:[L.c1,mix(L.c0,L.c1,.66),mix(L.c0,L.c1,.33),L.c0],base:mix(L.c0,L.c1,.55),glow:L.c1,brand:mix(L.c0,L.c1,.6),hi:L.c1}};
+</script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/utils/BufferGeometryUtils.js"></script>
 <script>
@@ -145,7 +220,7 @@ function size(){
 size();new ResizeObserver(size).observe(wrap);
 scene.add(new T.HemisphereLight(0xF2FFF9,0x08382D,.75));
 const k1=new T.DirectionalLight(0xffffff,2.5);k1.position.set(2.5,3.4,-5.2);scene.add(k1);
-const k2=new T.DirectionalLight(0x00FFA3,1.1);k2.position.set(-5,2,-4);scene.add(k2);
+const k2=new T.DirectionalLight((window.grivnexPalette?window.grivnexPalette().glow:'#00FFA3'),1.1);k2.position.set(-5,2,-4);scene.add(k2);
 const k3=new T.DirectionalLight(0x7DFFCE,0.5);k3.position.set(3,-3,4);scene.add(k3);
 const k4=new T.DirectionalLight(0xffffff,.5);k4.position.set(-3,5,1);scene.add(k4);
 const k5=new T.DirectionalLight(0xffffff,.95);k5.position.set(2,3,6);scene.add(k5);
@@ -174,14 +249,21 @@ function grivnaGeo(){
     const ux=t1[0]-t0[0],uz=t1[2]-t0[2],vy=b0[1]-t0[1],nx=-uz*vy,nz=ux*vy,cx=(t0[0]+t1[0])/2,cz=(t0[2]+t1[2])/2;
     if(nx*cx+nz*cz>0)idx.push(base,base+1,base+2,base,base+2,base+3);else idx.push(base,base+2,base+1,base,base+3,base+2)}
   const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(pos,3));geo.setIndex(idx);geo.computeVertexNormals();return geo}
-let g=grivnaGeo();g.center();
-const raw=g.toNonIndexed().attributes.position.array;
+const LAB=window.GRIVNEX_LAB||{},PAL=window.grivnexPalette?window.grivnexPalette():null;
+let g,raw,OBJ_SCALE=.98;
+if(LAB.obj==='pill'){
+  const shape=rp([new T.Vector2(-.82,0),new T.Vector2(.82,0),new T.Vector2(.56,.76),new T.Vector2(-.56,.76)],.22);
+  g=new T.ExtrudeGeometry(shape,{depth:2.7,bevelEnabled:true,bevelThickness:.3,bevelSize:.16,bevelSegments:12,curveSegments:28});
+  g.rotateY(Math.PI/2);g.center();raw=g.toNonIndexed().attributes.position.array;
+  if(T.BufferGeometryUtils){g.deleteAttribute('normal');g.deleteAttribute('uv');g=T.BufferGeometryUtils.mergeVertices(g,1e-4)}
+  g.computeVertexNormals();OBJ_SCALE=.82;
+}else{g=grivnaGeo();g.center();raw=g.toNonIndexed().attributes.position.array}
 g.computeBoundingBox();
 const bb=g.boundingBox,half=bb.max.x,yh=bb.max.y;
-const C0=new T.Color(0x009466),C1=new T.Color(0x00E092);
-const BASE=new T.Color(0x00B97C);
+const C0=new T.Color(PAL?PAL.c0:0x009466),C1=new T.Color(PAL?PAL.c1:0x00E092);
+const BASE=new T.Color(PAL?PAL.base:0x00B97C);
 const U={uProg:{value:0},uDir:{value:0},uHalf:{value:half},uYH:{value:yh},uEdge:{value:new T.Color(0xD8FFEE)},uRim:{value:.15},uC0:{value:C0},uC1:{value:C1}};
-const mat=new T.MeshPhysicalMaterial({color:0x00B97C,roughness:.18,metalness:0,clearcoat:1,clearcoatRoughness:.02,emissive:0x00FFA3,emissiveIntensity:0,
+const mat=new T.MeshPhysicalMaterial({color:0x00B97C,roughness:.18,metalness:0,clearcoat:1,clearcoatRoughness:.02,emissive:(PAL?PAL.glow:0x00FFA3),emissiveIntensity:0,
   stencilWrite:true,stencilRef:2,stencilFuncMask:2,stencilWriteMask:0,stencilFunc:T.NotEqualStencilFunc,stencilFail:T.KeepStencilOp,stencilZFail:T.KeepStencilOp,stencilZPass:T.KeepStencilOp});
 mat.onBeforeCompile=sh=>{Object.assign(sh.uniforms,U);
   sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nvarying vec3 vPL;').replace('#include <begin_vertex>','#include <begin_vertex>\nvPL=position;');
@@ -227,10 +309,10 @@ const rimPlane=new T.Mesh(new T.PlaneGeometry(SP,SP),rimMat);rimPlane.geometry.r
 // Glow
 function haloTex(stops){const c=document.createElement('canvas');c.width=c.height=256;const x=c.getContext('2d');const gr=x.createRadialGradient(128,128,0,128,128,128);stops.forEach(s=>gr.addColorStop(s[0],s[1]));x.fillStyle=gr;x.fillRect(0,0,256,256);return new T.CanvasTexture(c)}
 const back=new T.Vector3(6,4.2,6).normalize().multiplyScalar(-3);
-const haloIn=new T.Sprite(new T.SpriteMaterial({map:haloTex([[0,'rgba(0,255,163,1)'],[.45,'rgba(0,255,163,.55)'],[.8,'rgba(0,255,163,.12)'],[1,'rgba(0,255,163,0)']]),transparent:true,depthWrite:false,opacity:0}));
-haloIn.scale.set(4.3,2.1,1);haloIn.position.copy(back);scene.add(haloIn);
-const haloOut=new T.Sprite(new T.SpriteMaterial({map:haloTex([[0,'rgba(0,255,163,.8)'],[.4,'rgba(0,255,163,.3)'],[1,'rgba(0,255,163,0)']]),transparent:true,depthWrite:false,opacity:0}));
-haloOut.scale.set(5.8,3.2,1);haloOut.position.copy(back).multiplyScalar(1.1);scene.add(haloOut);
+const haloIn=new T.Sprite(new T.SpriteMaterial({map:haloTex([[0,'rgba(255,255,255,1)'],[.45,'rgba(255,255,255,.55)'],[.8,'rgba(255,255,255,.12)'],[1,'rgba(255,255,255,0)']]),transparent:true,depthWrite:false,opacity:0}));
+haloIn.material.color.set(PAL?PAL.glow:'#00FFA3');haloIn.scale.set(4.3,2.1,1);haloIn.position.copy(back);scene.add(haloIn);
+const haloOut=new T.Sprite(new T.SpriteMaterial({map:haloTex([[0,'rgba(255,255,255,.8)'],[.4,'rgba(255,255,255,.3)'],[1,'rgba(255,255,255,0)']]),transparent:true,depthWrite:false,opacity:0}));
+haloOut.material.color.set(PAL?PAL.glow:'#00FFA3');haloOut.scale.set(5.8,3.2,1);haloOut.position.copy(back).multiplyScalar(1.1);scene.add(haloOut);
 
 // Sand
 const tris=[],areas=[];let A=0;const va=new T.Vector3(),vb=new T.Vector3(),vc=new T.Vector3(),e1=new T.Vector3(),e2=new T.Vector3();
@@ -241,7 +323,7 @@ const BOW=[[-.85,.5,.7],[.7,.35,-.85],[-.7,-.35,.85],[.85,-.5,-.5]];
 const E=new Float32Array(NE*3),R=new T.Vector3(),Uv=new T.Vector3();
 function basis(){cam.updateMatrixWorld();R.setFromMatrixColumn(cam.matrixWorld,0);Uv.setFromMatrixColumn(cam.matrixWorld,1)}
 function scr(fx,fy,out,o){const sx=cam.left+fx*(cam.right-cam.left),sy=cam.bottom+fy*(cam.top-cam.bottom);out[o]=R.x*sx+Uv.x*sy;out[o+1]=R.y*sx+Uv.y*sy;out[o+2]=R.z*sx+Uv.z*sy}
-const pal=[new T.Color(0x00FFA3),new T.Color(0x00D18C),new T.Color(0x00B37A),new T.Color(0x00805A)];
+let pal=(PAL?PAL.pal:['#00FFA3','#00D18C','#00B37A','#00805A']).map(c=>new T.Color(c));
 function mk(n){return{tg:new Float32Array(n*3),jit:new Float32Array(n*3),c1:new Float32Array(n*3),c2:new Float32Array(n*3),pos:new Float32Array(n*3),col:new Float32Array(n*3),rnd:new Float32Array(n),gr:new Float32Array(n),dA:new Float32Array(n),dS:new Float32Array(n),ph:new Float32Array(n),em:new Uint8Array(n),n}}
 function seed(P,i,o){const j=rs(.14),q1=rs(.3),q2=rs(.22);P.jit[o]=j[0];P.jit[o+1]=j[1];P.jit[o+2]=j[2];P.c1[o]=q1[0];P.c1[o+1]=q1[1];P.c1[o+2]=q1[2];P.c2[o]=q2[0];P.c2[o+1]=q2[1];P.c2[o+2]=q2[2];P.em[i]=(Math.random()*NE)|0;P.ph[i]=Math.random()*6.28;P.rnd[i]=Math.random();const c=pal[(Math.random()*pal.length)|0];P.col[o]=c.r;P.col[o+1]=c.g;P.col[o+2]=c.b}
 const S=mk(16000);
@@ -258,6 +340,14 @@ function fs(landed){return 'uniform float uOp;uniform vec3 uBase;varying vec3 vC
 const pmFly=new T.ShaderMaterial({uniforms:PU,transparent:true,depthWrite:false,vertexShader:vs,fragmentShader:fs(false)});
 const pmLand=new T.ShaderMaterial({uniforms:PU,transparent:true,depthWrite:false,vertexShader:vs,fragmentShader:fs(true),stencilWrite:true,stencilRef:1,stencilFuncMask:1,stencilWriteMask:0,stencilFunc:T.EqualStencilFunc,stencilZPass:T.KeepStencilOp,stencilFail:T.KeepStencilOp,stencilZFail:T.KeepStencilOp});
 const sandFly=new T.Points(pg,pmFly),sandLand=new T.Points(pg,pmLand);sandFly.frustumCulled=sandLand.frustumCulled=false;scene.add(sandFly);scene.add(sandLand);
+window.grivnexRecolor=function(P){
+  C0.set(P.c0);C1.set(P.c1);BASE.set(P.base);mat.emissive.set(P.glow);k2.color.set(P.glow);
+  haloIn.material.color.set(P.glow);haloOut.material.color.set(P.glow);
+  pal=P.pal.map(c=>new T.Color(c));
+  for(const Q of [S,D])for(let i=0;i<Q.n;i++){const c=pal[(Math.random()*pal.length)|0],o=i*3;Q.col[o]=c.r;Q.col[o+1]=c.g;Q.col[o+2]=c.b}
+  pg.attributes.aCol.needsUpdate=true;dg.attributes.color.needsUpdate=true;
+  recFloor.color.copy(C0).multiplyScalar(.38);recWall.color.copy(C0).multiplyScalar(.6);
+};
 const dg=new T.BufferGeometry();dg.setAttribute('position',new T.BufferAttribute(D.pos,3));dg.setAttribute('color',new T.BufferAttribute(D.col,3));
 const dust=new T.Points(dg,new T.PointsMaterial({size:1.6,vertexColors:true,transparent:true,opacity:.55,depthWrite:false}));dust.frustumCulled=false;scene.add(dust);
 
@@ -300,7 +390,7 @@ function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;clock+=dt;st
   haloIn.material.opacity=prog*(.3+glow*.6);haloOut.material.opacity=prog*(.14+glow*.45);
   PU.uOp.value=pop;const sv=pop>.001;sandFly.visible=sandLand.visible=mask.visible=sv;
   smx+=(mx-smx)*.06;smy+=(my-smy)*.06;
-  group.rotation.y=-.1+Math.sin(clock*.35)*.12+smx*.3;group.rotation.x=smy*.12;group.position.y=Math.sin(clock*1.1)*.06;group.scale.setScalar(.98*(1-.04*(.5-.5*Math.cos(clock*.75))));
+  group.rotation.y=-.1+Math.sin(clock*.35)*.12+smx*.3;group.rotation.x=smy*.12;group.position.y=Math.sin(clock*1.1)*.06;group.scale.setScalar(OBJ_SCALE*(1-.04*(.5-.5*Math.cos(clock*.75))));
   group.updateMatrixWorld();basis();for(let e=0;e<NE;e++)scr(EF[e][0],EF[e][1],E,e*3);
   const m=group.matrixWorld.elements;
   if(sv){upd(S,m,false);
@@ -384,6 +474,48 @@ requestAnimationFrame(frame);
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
+})();
+</script>
+<script>
+// Design lab panel
+(function(){
+  const L=window.GRIVNEX_LAB,P=window.GRIVNEX_PRESETS,$=id=>document.getElementById(id);
+  const save=()=>{try{localStorage.setItem('grivnex-lab',JSON.stringify(L))}catch(e){}};
+  const tab=$('labTab'),lab=$('lab');
+  function open(v){document.body.classList.toggle('lab-open',v);tab.setAttribute('aria-expanded',v);lab.setAttribute('aria-hidden',!v)}
+  tab.onclick=()=>open(true);$('labX').onclick=()=>open(false);$('labVeil').onclick=()=>open(false);
+  addEventListener('keydown',e=>{if(e.key==='Escape')open(false)});
+  const lineSvg=document.querySelector('#nav .logo svg');$('pvLine').appendChild(lineSvg.cloneNode(true));
+  function applyLogo(){
+    document.querySelectorAll('.logo').forEach(a=>{
+      let svg=a.querySelector('svg'),img=a.querySelector('img.custom');
+      if(!svg&&L.logo==='line'){svg=lineSvg.cloneNode(true);a.prepend(svg)}
+      if(svg)svg.style.display=L.logo==='line'?'':'none';
+      if(L.logo==='custom'&&L.logoData){if(!img){img=document.createElement('img');img.className='custom';img.alt='';a.prepend(img)}img.src=L.logoData;img.style.display=''}
+      else if(img)img.style.display='none'});
+    const pv=$('pvCustom');pv.textContent='';
+    if(L.logoData){const i=document.createElement('img');i.src=L.logoData;i.alt='';pv.appendChild(i)}else{const s=document.createElement('small');s.textContent='немає файлу';pv.appendChild(s)}
+    mark('#optLogo [data-logo]','logo')}
+  function mark(sel,key){document.querySelectorAll(sel).forEach(b=>b.setAttribute('aria-pressed',b.dataset[key]===L[key]))}
+  document.querySelectorAll('#optLogo [data-logo]').forEach(b=>b.onclick=()=>{
+    if(b.dataset.logo==='custom'&&!L.logoData){$('logoFile').click();return}
+    L.logo=b.dataset.logo;save();applyLogo()});
+  $('logoUpload').onclick=()=>$('logoFile').click();
+  $('logoFile').onchange=e=>{const f=e.target.files[0];if(!f)return;if(f.size>1.5e6){alert('Файл завеликий, до 1,5 МБ');return}
+    const r=new FileReader();r.onload=()=>{L.logoData=r.result;L.logo='custom';save();applyLogo()};r.readAsDataURL(f)};
+  document.querySelectorAll('#optObj [data-obj]').forEach(b=>b.onclick=()=>{if(L.obj===b.dataset.obj)return;L.obj=b.dataset.obj;save();location.reload()});
+  mark('#optObj [data-obj]','obj');
+  const oc=$('optColor');
+  Object.entries(P).forEach(([k,p])=>{const b=document.createElement('button');b.className='opt';b.type='button';b.dataset.color=k;
+    const sw=document.createElement('span');sw.className='sw';sw.style.background='linear-gradient(90deg,'+p.c0+','+p.c1+')';b.append(sw,document.createTextNode(p.name));oc.appendChild(b)});
+  function applyColor(){const p=window.grivnexPalette(L),r=document.documentElement.style;r.setProperty('--brand',p.brand);r.setProperty('--brand-hi',p.hi);
+    if(window.grivnexRecolor)window.grivnexRecolor(p);mark('#optColor [data-color]','color');$('cc0').value=p.c0;$('cc1').value=p.c1}
+  oc.querySelectorAll('[data-color]').forEach(b=>b.onclick=()=>{L.color=b.dataset.color;save();applyColor()});
+  const custom=()=>{L.color='custom';L.c0=$('cc0').value;L.c1=$('cc1').value;save();applyColor()};
+  $('cc0').oninput=custom;$('cc1').oninput=custom;
+  $('labReset').onclick=()=>{const needReload=L.obj!=='grivna';try{localStorage.removeItem('grivnex-lab')}catch(e){}
+    if(needReload){location.reload();return}Object.assign(L,{logo:'line',logoData:'',obj:'grivna',color:'electric',c0:'#009466',c1:'#00E092'});applyLogo();applyColor()};
+  applyLogo();applyColor();
 })();
 </script>
 </body>
