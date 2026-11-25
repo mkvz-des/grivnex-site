@@ -508,7 +508,7 @@ function markGeo(){
       if(c==='M'){s.moveTo(X(n()),Y(n()));c='L'}else if(c==='L')s.lineTo(X(n()),Y(n()));
       else if(c==='C'){const a=[n(),n(),n(),n(),n(),n()];s.bezierCurveTo(X(a[0]),Y(a[1]),X(a[2]),Y(a[3]),X(a[4]),Y(a[5]))}else if(c==='Z')s.closePath()}
     shapes.push(s)});
-  let geo=new T.ExtrudeGeometry(shapes,{depth:.34,bevelEnabled:true,bevelThickness:.12,bevelSize:.06,bevelOffset:-.045,bevelSegments:10,curveSegments:48});
+  let geo=new T.ExtrudeGeometry(shapes,{depth:.34,bevelEnabled:true,bevelThickness:.12,bevelSize:.04,bevelSegments:10,curveSegments:48});
   geo.translate(0,0,-.17);
   // face the camera, top leaning slightly back so the thickness reads
   const o=new T.Object3D();o.lookAt(6,4.2,6);o.rotateX(-.32);o.updateMatrix();geo.applyMatrix4(o.matrix);
@@ -524,7 +524,7 @@ if(LAB.obj==='pill'){
 }else if(LAB.obj==='mark'){
   g=markGeo();g.center();raw=g.toNonIndexed().attributes.position.array;
   if(T.BufferGeometryUtils){g.deleteAttribute('normal');g.deleteAttribute('uv');g=T.BufferGeometryUtils.mergeVertices(g,1e-4)}
-  g.computeVertexNormals();OBJ_SCALE=.96;
+  g.computeVertexNormals();OBJ_SCALE=1.06;
 }else{g=grivnaGeo();g.center();raw=g.toNonIndexed().attributes.position.array}
 g.computeBoundingBox();
 const bb=g.boundingBox,half=bb.max.x,yh=bb.max.y;
