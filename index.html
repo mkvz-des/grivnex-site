@@ -214,15 +214,28 @@ body.go .copy .actions{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .5s both}
 .step details{margin-top:1.2em;font-size:14px;color:#4D5450}
 .step summary{cursor:pointer;color:#0F0F0F}
 .step details p{margin-top:.6em;font-size:14px}
-.token{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,80px);align-items:center}
+.token{display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);gap:clamp(24px,4vw,80px);align-items:center}
 .facts{display:grid;gap:0;border-top:1px solid rgba(15,15,15,.1)}
 .facts div{display:flex;justify-content:space-between;gap:16px;padding:16px 0;border-bottom:1px solid rgba(15,15,15,.1);font-size:clamp(14px,1vw,18px)}
 .facts span{color:#4D5450}
 .copybtn{font:inherit;font-size:13px;margin-left:8px;padding:2px 10px;border:1px solid rgba(15,15,15,.15);border-radius:8px;background:#fff;color:#0F0F0F;cursor:pointer}
-.dist{display:flex;gap:clamp(20px,3vw,48px);align-items:center}
-.donut{flex:none;width:clamp(160px,16vw,260px);aspect-ratio:1;border-radius:50%;background:conic-gradient(#0F0F0F 0 40%,var(--brand) 0 65%,#9AA39F 0 85%,#D6DBD8 0);-webkit-mask:radial-gradient(circle,transparent 54%,#000 55%);mask:radial-gradient(circle,transparent 54%,#000 55%)}
-.legend{display:grid;gap:12px;font-size:clamp(14px,1vw,17px)}
-.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:10px;vertical-align:-1px}
+.dist{display:flex;flex-direction:column;align-items:center;gap:clamp(10px,1.6vh,22px)}
+.legend{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 26px;font-size:clamp(14px,1vw,17px)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:9px;vertical-align:0;background:var(--c)}
+.legend .ex{border-bottom:0;cursor:default;color:#7A817D}
+#token{border-top:0}
+#token.pin{height:340vh;padding:0}
+#token.pin .tok-in{position:sticky;top:0;min-height:100vh;box-sizing:border-box;padding:clamp(84px,11vh,130px) var(--pad) clamp(28px,4vh,56px);display:flex;flex-direction:column;justify-content:center}
+#token.pin .legend>div{opacity:.28;transform:translateY(6px);transition:opacity .5s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
+#token.pin .legend>div.on{opacity:1;transform:none}
+.gd{position:relative;isolation:isolate;width:100%;height:min(56vh,560px)}
+.gd canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.gd::after{content:"";position:absolute;z-index:-1;left:24%;right:24%;bottom:3%;height:9%;border-radius:50%;background:radial-gradient(closest-side,rgba(15,15,15,.13),transparent);filter:blur(8px)}
+.gd-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;pointer-events:none;text-align:center}
+.gd-n{font-family:"Space Mono",ui-monospace,monospace;font-size:clamp(30px,2.6vw,50px);line-height:1;color:var(--gc,#0F0F0F);transition:color .5s ease}
+.gd-l{font-size:clamp(14px,1vw,18px);font-weight:500;color:var(--gc,#7A817D);transition:color .5s ease}
+.gd-c.sw .gd-n,.gd-c.sw .gd-l{animation:gdin .6s cubic-bezier(.2,.7,.2,1) both}.gd-c.sw .gd-l{animation-delay:.06s}
+@keyframes gdin{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 .trust{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.4vw,28px)}
 .tcard{border:1px solid rgba(15,15,15,.1);border-radius:20px;padding:clamp(22px,2vw,36px)}
 .tcard b{display:block;font-weight:500;font-size:clamp(18px,1.3vw,24px);margin-bottom:.5em}
@@ -541,6 +554,7 @@ body.lab-open .lab-veil{opacity:1;pointer-events:auto}
 </section>
 
 <section class="sec" id="token">
+  <div class="tok-in">
   <h2>Токеноміка GRVX</h2>
   <p class="sub">Скільки токенів існує і як вони розподілені. Значення нижче — приклад, реальні дадуть партнери.</p>
   <div class="token">
@@ -552,14 +566,10 @@ body.lab-open .lab-veil{opacity:1;pointer-events:auto}
       <div><span>Аудит</span><span class="nm"><i class="ic" style="--c:#0F0F0F" aria-hidden="true"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path fill="#fff" d="M3 3.643h1.286v7.714h.643V3.643h1.285v7.714h13.5v-.643H6.857v-7.07h1.286v5.785h11.571v-.643H8.786V3.643h1.286V7.5h3.857V3.643h1.285V7.5h.643V3.643h1.286V7.5h.643V3.643h1.285V7.5h.643V3.643H21v16.714h-1.286v-7.714h-.642v7.714h-1.286v-7.714h-13.5v.643h12.857v7.071h-1.286v-5.785H4.286v.643h10.928v5.142h-1.286V16.5h-3.857v3.857H8.787V16.5h-.643v3.857H6.857V16.5h-.643v3.857H4.93V16.5h-.643v3.857H3z"/></svg></i><span class="ex" title="Приклад — замінимо реальними даними">Hacken</span></span></div>
     </div>
     <div class="dist">
-      <div class="donut" role="img" aria-label="Розподіл токенів, заглушка"></div>
-      <div class="legend">
-        <div><i style="background:#0F0F0F"></i>Спільнота — <span class="ex" title="Приклад — замінимо реальними даними">40%</span></div>
-        <div><i style="background:var(--brand)"></i>Ліквідність — <span class="ex" title="Приклад — замінимо реальними даними">25%</span></div>
-        <div><i style="background:#9AA39F"></i>Команда — <span class="ex" title="Приклад — замінимо реальними даними">20%</span></div>
-        <div><i style="background:#D6DBD8"></i>Резерв — <span class="ex" title="Приклад — замінимо реальними даними">15%</span></div>
-      </div>
+      <div class="gd" id="gd"><canvas id="gdc" aria-hidden="true"></canvas><div class="gd-c" aria-live="polite"><span class="gd-n" id="gdN">GRVX</span><span class="gd-l" id="gdL">Розподіл токенів</span></div></div>
+      <div class="legend" id="gdLeg" role="img" aria-label="Розподіл токенів (приклад): Спільнота 40%, Ліквідність 25%, Команда 20%, Резерв 15%"><div style="--c:#8B5CF6"><i></i>Спільнота <span class="ex" title="Приклад — замінимо реальними даними">40%</span></div><div style="--c:#00C982"><i></i>Ліквідність <span class="ex" title="Приклад — замінимо реальними даними">25%</span></div><div style="--c:#F5A524"><i></i>Команда <span class="ex" title="Приклад — замінимо реальними даними">20%</span></div><div style="--c:#38BDF8"><i></i>Резерв <span class="ex" title="Приклад — замінимо реальними даними">15%</span></div></div>
     </div>
+  </div>
   </div>
 </section>
 
@@ -1090,6 +1100,78 @@ document.querySelectorAll('.btn .roll').forEach(r=>{const s=r.dataset.t||r.textC
       if(on&&!s.classList.contains('in')){s.classList.add('in');clearTimeout(s.tm);s.tm=setTimeout(()=>s.classList.add('run'),950)}
       else if(!on&&s.classList.contains('in')){s.classList.remove('in','run');clearTimeout(s.tm)}})}
   addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(upd)}},{passive:true});addEventListener('resize',upd);upd()})();
+</script>
+<script>
+// Tokenomics: a 3D glass donut. The block pins while you scroll; each share is announced in the middle,
+// its % counts up and the glass fills with coloured sand for that slice. Tilts toward the mouse.
+(function(){const sec=document.getElementById('token'),wrap=document.getElementById('gd'),cv=document.getElementById('gdc');
+  if(!sec||!wrap||!cv||!window.THREE)return;
+  const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const SEG=[...document.querySelectorAll('#gdLeg>div')].map(el=>({el,n:el.childNodes[1].textContent.trim(),v:parseFloat(el.querySelector('.ex').textContent),c:getComputedStyle(el).getPropertyValue('--c').trim()}));
+  const R=1.35,TUBE=.4,GAP=.045,N=16000;
+  let renderer;try{renderer=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true})}catch(e){return}
+  renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));
+  const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(30,1,.1,50),grp=new THREE.Group();scene.add(grp);
+  // sand
+  const pos=[],nor=[],col=[],uu=[],sg=[],rn=[],c=new THREE.Color();let cum=0;
+  SEG.forEach((S,i)=>{const span=S.v/100*Math.PI*2,cnt=Math.round(N*S.v/100),a0=Math.PI/2-cum-GAP/2,len=span-GAP;cum+=span;
+    for(let k=0;k<cnt;k++){const u=Math.random(),th=a0-u*len,r=TUBE*.84*Math.sqrt(Math.random()),ph=Math.random()*Math.PI*2,rr=R+r*Math.cos(ph);
+      pos.push(rr*Math.cos(th),rr*Math.sin(th),r*Math.sin(ph));nor.push(Math.cos(ph)*Math.cos(th),Math.cos(ph)*Math.sin(th),Math.sin(ph));
+      c.set(S.c).offsetHSL((Math.random()-.5)*.03,(Math.random()-.5)*.12,(Math.random()-.5)*.2);col.push(c.r,c.g,c.b);
+      uu.push(Math.min(1,Math.max(0,u+(Math.random()-.5)*.05)));sg.push(i);rn.push(Math.random())}});
+  const g=new THREE.BufferGeometry();
+  g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.setAttribute('aNorm',new THREE.Float32BufferAttribute(nor,3));
+  g.setAttribute('aCol',new THREE.Float32BufferAttribute(col,3));g.setAttribute('aU',new THREE.Float32BufferAttribute(uu,1));
+  g.setAttribute('aSeg',new THREE.Float32BufferAttribute(sg,1));g.setAttribute('aRnd',new THREE.Float32BufferAttribute(rn,1));
+  const fill=new THREE.Vector4(),sandU={uFill:{value:fill},uSize:{value:2.6},uPR:{value:renderer.getPixelRatio()}};
+  const sand=new THREE.Points(g,new THREE.ShaderMaterial({uniforms:sandU,
+    vertexShader:`attribute vec3 aNorm;attribute vec3 aCol;attribute float aU;attribute float aSeg;attribute float aRnd;
+      uniform vec4 uFill;uniform float uSize;uniform float uPR;varying vec3 vC;
+      void main(){float f=aSeg<.5?uFill.x:aSeg<1.5?uFill.y:aSeg<2.5?uFill.z:uFill.w;
+        float t=clamp((f*1.08-aU)/.08,0.,1.);float e=(1.-t)*(1.-t);
+        vec3 p=position+vec3((aRnd-.5)*.5,.9+aRnd*.5,.55)*e;
+        vec4 mv=modelViewMatrix*vec4(p,1.);gl_Position=projectionMatrix*mv;
+        gl_PointSize=uSize*uPR*(.55+.45*t)*(6.5/-mv.z);if(t<=0.)gl_Position=vec4(2.,2.,2.,1.);
+        vec3 n=normalize(normalMatrix*aNorm);float l=.5+.5*max(dot(n,normalize(vec3(-.35,.65,.7))),0.);
+        float sp=pow(max(dot(reflect(-normalize(vec3(-.35,.65,.7)),n),vec3(0.,0.,1.)),0.),14.)*.25;
+        vC=aCol*l+sp;}`,
+    fragmentShader:`varying vec3 vC;void main(){vec2 d=gl_PointCoord-.5;if(dot(d,d)>.25)discard;gl_FragColor=vec4(vC,1.);}`}));
+  grp.add(sand);
+  // glass shell: back faces first (faint), then front faces (rim + highlight)
+  const glassV=`varying vec3 vN;varying vec3 vV;void main(){vec4 mv=modelViewMatrix*vec4(position,1.);vN=normalize(normalMatrix*normal);vV=normalize(-mv.xyz);gl_Position=projectionMatrix*mv;}`;
+  const glassF=`uniform float uA;varying vec3 vN;varying vec3 vV;void main(){vec3 n=normalize(vN);if(!gl_FrontFacing)n=-n;
+      float fr=pow(1.-abs(dot(n,vV)),2.4);vec3 L=normalize(vec3(-.45,.75,.6));float sp=pow(max(dot(reflect(-L,n),vV),0.),60.);
+      vec3 rim=vec3(.42,.47,.45);float a=(.035+fr*.5)*uA;vec3 col=mix(rim,vec3(1.),sp);gl_FragColor=vec4(col,min(1.,a+sp*.85*uA));}`;
+  const tg=new THREE.TorusGeometry(R,TUBE,72,260);
+  [[THREE.BackSide,.45],[THREE.FrontSide,1]].forEach(([side,a],k)=>{const m=new THREE.Mesh(tg,new THREE.ShaderMaterial({uniforms:{uA:{value:a}},vertexShader:glassV,fragmentShader:glassF,transparent:true,depthWrite:false,side}));m.renderOrder=1+k;grp.add(m)});
+  // thin dividers between slices, etched in the glass
+  cum=0;SEG.forEach(S=>{const th=Math.PI/2-cum;cum+=S.v/100*Math.PI*2;const ring=new THREE.Mesh(new THREE.TorusGeometry(TUBE*.995,.004,6,64),new THREE.MeshBasicMaterial({color:0x0F0F0F,transparent:true,opacity:.18,depthWrite:false}));
+    ring.position.set(R*Math.cos(th),R*Math.sin(th),0);ring.rotation.set(Math.PI/2,0,0);ring.rotateOnWorldAxis(new THREE.Vector3(0,0,1),th);ring.renderOrder=3;grp.add(ring)});
+  // size
+  function size(){const w=wrap.clientWidth,h=wrap.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);camera.aspect=w/h;
+    const need=2*(R+TUBE)+.5,t=Math.tan(camera.fov*Math.PI/360);camera.position.set(0,0,Math.max(need/(2*t),need/(2*t*camera.aspect)));camera.updateProjectionMatrix()}
+  size();if(window.ResizeObserver)new ResizeObserver(size).observe(wrap);else addEventListener('resize',size);
+  // mouse tilt
+  let mx=0,my=0;addEventListener('pointermove',e=>{const r=wrap.getBoundingClientRect();mx=Math.max(-1,Math.min(1,(e.clientX-(r.left+r.width/2))/(r.width*.7)));my=Math.max(-1,Math.min(1,(e.clientY-(r.top+r.height/2))/(r.height*.8)))},{passive:true});
+  // scroll → fill targets
+  const leg=SEG.map(S=>S.el),nEl=document.getElementById('gdN'),lEl=document.getElementById('gdL'),cEl=nEl.parentElement;
+  const cur=[0,0,0,0],tgt=[0,0,0,0];let stage=-2,shown='';
+  if(!rm)sec.classList.add('pin');
+  function targets(){if(rm){tgt.fill(1);return}const r=sec.getBoundingClientRect(),p=Math.max(0,Math.min(1,-r.top/Math.max(1,r.height-innerHeight)))*4.15;
+    for(let i=0;i<4;i++)tgt[i]=Math.max(0,Math.min(1,(p-i-.12)/.7))}
+  function label(){let st=-1;for(let i=0;i<4;i++)if(cur[i]>.004||tgt[i]>0)st=i;
+    if(st!==stage){stage=st;cEl.classList.remove('sw');void cEl.offsetWidth;cEl.classList.add('sw');
+      if(st<0){cEl.style.removeProperty('--gc');lEl.textContent='Розподіл токенів'}else{cEl.style.setProperty('--gc',SEG[st].c);lEl.textContent=SEG[st].n}
+      leg.forEach((el,i)=>el.classList.toggle('on',i<=st))}
+    const txt=st<0?'GRVX':Math.round(cur[st]*SEG[st].v)+'%';if(txt!==shown){shown=txt;nEl.textContent=txt}}
+  let vis=false,raf=0,t0=performance.now();
+  function frame(now){raf=0;if(!vis)return;targets();
+    for(let i=0;i<4;i++){cur[i]+=(tgt[i]-cur[i])*.09;if(Math.abs(tgt[i]-cur[i])<.0005)cur[i]=tgt[i]}
+    fill.set(cur[0],cur[1],cur[2],cur[3]);label();
+    const t=(now-t0)/1000;grp.rotation.x+=(-.62+my*.28+Math.sin(t*.6)*.025-grp.rotation.x)*.06;grp.rotation.y+=(mx*.5+Math.sin(t*.45)*.04-grp.rotation.y)*.06;
+    renderer.render(scene,camera);raf=requestAnimationFrame(frame)}
+  new IntersectionObserver(es=>{vis=es[0].isIntersecting;if(vis&&!raf)raf=requestAnimationFrame(frame)},{rootMargin:'200px'}).observe(wrap);
+})();
 </script>
 </body>
 </html>
