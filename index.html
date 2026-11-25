@@ -261,7 +261,7 @@ body.go .copy .actions{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .5s both}
 .lg-gr{position:absolute;left:50%;top:50%;width:0;height:0;opacity:var(--go,0)}
 .lg-gr i{position:absolute;left:0;top:0;width:var(--s);height:var(--s);margin:calc(var(--s)/-2) 0 0 calc(var(--s)/-2);border-radius:50%;background:var(--gc2);transform:translate(calc(var(--x)*(1 - var(--d,1))),calc(var(--y)*(1 - var(--d,1))))}
 .lg-n,.lg-v{opacity:var(--no,1);transform:translateX(calc((1 - var(--no,1))*-10px))}
-.lg-v{font-family:"Space Mono",ui-monospace,monospace;font-weight:400;text-align:right;font-variant-numeric:tabular-nums;color:#0F0F0F}
+.lg-v{font-family:"Space Mono",ui-monospace,monospace;font-weight:400;text-align:right;font-variant-numeric:tabular-nums;color:color-mix(in srgb,#0F0F0F calc(var(--f,1)*100%),#B9BFBC)}
 .legend .ex{border-bottom:0;cursor:default}
 #token .facts{position:relative;z-index:1;display:flex;justify-content:space-between;gap:24px;margin-top:clamp(20px,4vh,48px);padding-top:clamp(14px,2vh,22px);border-top:1px solid rgba(15,15,15,.1)}
 #token .facts div{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:0;border:0;font-size:clamp(14px,1vw,17px)}
@@ -1221,7 +1221,7 @@ document.querySelectorAll('.btn .roll').forEach(r=>{const s=r.dataset.t||r.textC
     fill.set(cur.f[0],cur.f[1],cur.f[2],cur.f[3]);
     inner.style.setProperty('--k',cur.k.toFixed(3));
     let st=-1;SEG.forEach((S,i)=>{const d=cur.d[i],el=S.el.style;el.setProperty('--d',d.toFixed(3));el.setProperty('--go',(Math.min(1,d*6)*Math.min(1,(1-d)*6)).toFixed(3));
-      el.setProperty('--ds',cl((d-.55)/.45).toFixed(3));el.setProperty('--no',cl((d-.7)/.3).toFixed(3));
+      el.setProperty('--ds',cl((d-.55)/.45).toFixed(3));el.setProperty('--f',Math.pow(cur.f[i],2.2).toFixed(3));el.setProperty('--no',cl((d-.7)/.3).toFixed(3));
       const v=Math.round(cur.f[i]*S.v)+'%';if(S._v!==v){S._v=v;S.pv.textContent=v}if(d>.5)st=i});
     // the current share's % in the hole
     ctr.set(0,0,0);tilt.localToWorld(ctr);ctr.project(camera);gc.style.transform='translate('+((ctr.x*W/2)).toFixed(1)+'px,'+((-ctr.y*H/2)).toFixed(1)+'px)';
