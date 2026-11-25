@@ -218,18 +218,31 @@ body.go .copy .actions{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .5s both}
 .facts{display:grid;gap:0;border-top:1px solid rgba(15,15,15,.1)}
 .facts div{display:flex;justify-content:space-between;gap:16px;padding:16px 0;border-bottom:1px solid rgba(15,15,15,.1);font-size:clamp(14px,1vw,18px)}
 .facts span{color:#4D5450}
-.copybtn{font:inherit;font-size:13px;margin-left:8px;padding:2px 10px;border:1px solid rgba(15,15,15,.15);border-radius:8px;background:#fff;color:#0F0F0F;cursor:pointer}
+.copybtn{position:relative;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;padding:0;border:0;border-radius:7px;background:transparent;color:#0F0F0F;cursor:pointer;transition:background .2s}
+.copybtn:hover{background:rgba(15,15,15,.07)}.copybtn svg{width:16px;height:16px}
+.copybtn .ok{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;color:#00A86B;transition:opacity .2s}
+.copybtn.done>svg{opacity:0}.copybtn.done .ok{opacity:1}
 .dist{display:flex;flex-direction:column;align-items:center;gap:clamp(10px,1.6vh,22px)}
 #token{border-top:0}
 #token .tok-in{position:relative;isolation:isolate}
 #token .tok-main{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);gap:clamp(24px,4vw,80px);align-items:center}
 #token .tok-r{height:min(58vh,600px)}
-#token .tok-l h2,#token .tok-l .sub,#token .facts{opacity:var(--k,1);transform:translateY(calc((1 - var(--k,1))*26px))}
+#token .tok-l .sub,#token .facts{opacity:var(--k,1);transform:translateY(calc((1 - var(--k,1))*26px))}
+#token .tok-l{align-self:start}
+.tk-h span span{display:inline-block;color:#C3C9C6;transition:color .8s cubic-bezier(.4,0,.2,1)}
+.tk-h.dark span span{color:#0F0F0F}
+#token.pin .tk-h span span{opacity:0;filter:blur(10px);transform:translateX(-14px);transition:opacity .7s ease calc(var(--i)*.035s),filter .8s ease calc(var(--i)*.035s),transform .9s cubic-bezier(.2,.7,.2,1) calc(var(--i)*.035s),color .8s cubic-bezier(.4,0,.2,1)}
+#token.pin .tk-h.in span span{opacity:1;filter:none;transform:none}
+.addr{display:inline-flex;align-items:center;gap:8px;padding:5px 6px 5px 12px;border-radius:10px;background:#F1F3F2;color:#0F0F0F}
+#token .facts .ex{border-bottom:0;cursor:default}
+#token .facts div:nth-child(3)>span:last-child{font-weight:600;color:#0F0F0F}
 #token .tok-l .sub{margin-bottom:1.6em}
 .gd{position:absolute;inset:0;z-index:0;pointer-events:none}
 .gd canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .gd-c{position:absolute;left:50%;top:50%;pointer-events:none}
-.gd-n{display:block;transform:translate(-50%,-50%);font-family:"Space Mono",ui-monospace,monospace;font-size:clamp(28px,2.4vw,46px);line-height:1;color:var(--gc,#0F0F0F);transition:color .5s ease,opacity .4s ease;white-space:nowrap}
+.gd-c>span{position:absolute;left:0;white-space:nowrap}
+.gd-l{top:calc(clamp(28px,2.4vw,46px)*.55 + 6px);transform:translateX(-50%);font-size:clamp(13px,.95vw,17px);font-weight:500;color:var(--gc,#7A817D);opacity:var(--k,1);transition:color .5s ease}
+.gd-n{display:block;transform:translate(-50%,-60%);font-family:"Space Mono",ui-monospace,monospace;font-size:clamp(28px,2.4vw,46px);line-height:1;color:var(--gc,#0F0F0F);transition:color .5s ease,opacity .4s ease;white-space:nowrap}
 .legend{display:grid;gap:clamp(12px,1.8vh,20px);max-width:380px}
 .lg{display:grid;grid-template-columns:30px minmax(0,1fr) 5ch;align-items:center;column-gap:12px;font-size:clamp(18px,1.4vw,26px);font-weight:500;letter-spacing:-.01em}
 .lg-d{position:relative;width:18px;height:18px}
@@ -243,7 +256,9 @@ body.go .copy .actions{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .5s both}
 #token .facts div{display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:0;border:0;font-size:clamp(14px,1vw,17px)}
 #token .facts div>span:first-child{font-size:13px;color:#7A817D}
 #token.pin{height:420vh;padding:0}
-#token.pin .tok-in{position:sticky;top:0;height:100vh;box-sizing:border-box;padding:clamp(84px,11vh,124px) var(--pad) clamp(22px,4vh,44px);display:flex;flex-direction:column;justify-content:center}
+#token.pin .tok-in{position:sticky;top:0;height:100vh;box-sizing:border-box;padding:clamp(96px,13vh,136px) var(--pad) clamp(14px,2.6vh,30px);display:flex;flex-direction:column;justify-content:flex-start}
+#token.pin .tok-main{flex:1;min-height:0}
+#token.pin .facts{margin-top:clamp(12px,2vh,24px)}
 .trust{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.4vw,28px)}
 .tcard{border:1px solid rgba(15,15,15,.1);border-radius:20px;padding:clamp(22px,2vw,36px)}
 .tcard b{display:block;font-weight:500;font-size:clamp(18px,1.3vw,24px);margin-bottom:.5em}
@@ -563,10 +578,10 @@ body.lab-open .lab-veil{opacity:1;pointer-events:auto}
 
 <section class="sec" id="token">
   <div class="tok-in">
-    <div class="gd" id="gd" aria-hidden="true"><canvas id="gdc"></canvas><div class="gd-c"><span class="gd-n" id="gdN"></span></div></div>
+    <div class="gd" id="gd" aria-hidden="true"><canvas id="gdc"></canvas><div class="gd-c"><span class="gd-n" id="gdN"></span><span class="gd-l">Розподіл токенів</span></div></div>
     <div class="tok-main">
       <div class="tok-l">
-        <h2>Токеноміка GRVX</h2>
+        <h2 class="tk-h" aria-label="Токеноміка GRVX"><span aria-hidden="true"><span style="--i:0">Т</span><span style="--i:1">о</span><span style="--i:2">к</span><span style="--i:3">е</span><span style="--i:4">н</span><span style="--i:5">о</span><span style="--i:6">м</span><span style="--i:7">і</span><span style="--i:8">к</span><span style="--i:9">а</span><span style="--i:10">&nbsp;</span><span style="--i:11">G</span><span style="--i:12">R</span><span style="--i:13">V</span><span style="--i:14">X</span></span></h2>
         <p class="sub">Скільки токенів існує і як вони розподілені. Значення нижче — приклад, реальні дадуть партнери.</p>
         <div class="legend" id="gdLeg" role="img" aria-label="Розподіл токенів (приклад): Спільнота 40%, Ліквідність 25%, Команда 20%, Резерв 15%">
         <div class="lg" style="--c:#8B5CF6"><span class="lg-d"><i class="lg-dot"></i><span class="lg-gr"></span></span><span class="lg-n">Спільнота</span><span class="lg-v ex" title="Приклад — замінимо реальними даними" data-v="40">40%</span></div>
@@ -581,7 +596,7 @@ body.lab-open .lab-veil{opacity:1;pointer-events:auto}
       <div><span>Тікер</span><b>GRVX</b></div>
       <div><span>Мережа</span><span class="nm"><i class="ic" style="--c:#0052FF" aria-hidden="true"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path fill="#fff" d="M11.986 20C16.412 20 20 16.418 20 12s-3.588-8-8.014-8A8.01 8.01 0 0 0 4 11.328h10.593v1.345H4C4.342 16.776 7.787 20 11.986 20"/></svg></i><span class="ex" title="Приклад — замінимо реальними даними">Base (Ethereum L2)</span></span></div>
       <div><span>Загальна кількість</span><span class="ex" title="Приклад — замінимо реальними даними">1 000 000 000 GRVX</span></div>
-      <div><span>Адреса контракту</span><span><span class="ex" title="Приклад — замінимо реальними даними">0x7a3F…9c21</span><button class="copybtn" type="button">Копіювати</button></span></div>
+      <div><span>Адреса контракту</span><span class="addr"><span class="ex" title="Приклад — замінимо реальними даними">0x7a3F…9c21</span><button class="copybtn" type="button" aria-label="Скопіювати адресу"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8.5" y="8.5" width="11" height="11" rx="2.5"/><path d="M15.5 8.5V6.5a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h2"/></svg><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></button></span></div>
       <div><span>Аудит</span><span class="nm"><i class="ic" style="--c:#0F0F0F" aria-hidden="true"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path fill="#fff" d="M3 3.643h1.286v7.714h.643V3.643h1.285v7.714h13.5v-.643H6.857v-7.07h1.286v5.785h11.571v-.643H8.786V3.643h1.286V7.5h3.857V3.643h1.285V7.5h.643V3.643h1.286V7.5h.643V3.643h1.285V7.5h.643V3.643H21v16.714h-1.286v-7.714h-.642v7.714h-1.286v-7.714h-13.5v.643h12.857v7.071h-1.286v-5.785H4.286v.643h10.928v5.142h-1.286V16.5h-3.857v3.857H8.787V16.5h-.643v3.857H6.857V16.5h-.643v3.857H4.93V16.5h-.643v3.857H3z"/></svg></i><span class="ex" title="Приклад — замінимо реальними даними">Hacken</span></span></div>
     </div>
   </div>
@@ -1175,7 +1190,7 @@ document.querySelectorAll('.btn .roll').forEach(r=>{const s=r.dataset.t||r.textC
   const grpRect={x:0,y:0,s:1};
   // progress: 0–.08 big in the middle · .08–.2 slides right, heading in · then 4 shares
   const sm=x=>x<=0?0:x>=1?1:x*x*(3-2*x),cl=x=>Math.max(0,Math.min(1,x));
-  const cur={k:0,d:[0,0,0,0],f:[0,0,0,0]},nEl=document.getElementById('gdN'),gc=nEl.parentElement;
+  const hd=sec.querySelector('.tk-h'),cur={k:0,d:[0,0,0,0],f:[0,0,0,0]},nEl=document.getElementById('gdN'),gc=nEl.parentElement;
   if(!rm)sec.classList.add('pin');
   function want(){if(rm)return{k:1,d:[1,1,1,1],f:[1,1,1,1]};const r=sec.getBoundingClientRect(),P=cl(-r.top/Math.max(1,r.height-innerHeight)),L=.19,o={k:sm((P-.08)/.12),d:[],f:[]};
     for(let i=0;i<4;i++){const q=(P-.22-i*L)/L;o.d.push(cl(q/.22));o.f.push(cl((q-.24)/.66))}return o}
@@ -1184,7 +1199,7 @@ document.querySelectorAll('.btn .roll').forEach(r=>{const s=r.dataset.t||r.textC
     cur.k+=(w.k-cur.k)*e;for(let i=0;i<4;i++){cur.d[i]+=(w.d[i]-cur.d[i])*.14;cur.f[i]+=(w.f[i]-cur.f[i])*.09;if(Math.abs(w.f[i]-cur.f[i])<.0005)cur.f[i]=w.f[i]}
     // place the donut: centre of the screen → the right-hand slot
     const ir=wrap.getBoundingClientRect(),sr=slot.getBoundingClientRect(),k=sm(cur.k);
-    const big=Math.min(W*.5,H*.86),fin=Math.min(sr.width*.96,sr.height*1.3),px=big+(fin-big)*k;
+    const big=Math.min(W*.5,H*.86),fin=Math.min(sr.width*.86,sr.height*1.16),px=big+(fin-big)*k;
     const cx=W/2+((sr.left+sr.width/2-ir.left)-W/2)*k,cy=H*.5+((sr.top+sr.height/2-ir.top)-H*.5)*k;
     const u=2*D*Math.tan(FOV*Math.PI/360)/H,sc=px*u/(2*(R+TUBE));
     grp.position.set((cx-W/2)*u,-(cy-H/2)*u,0);grp.scale.setScalar(sc);sandU.uS.value=px/560;
@@ -1197,10 +1212,16 @@ document.querySelectorAll('.btn .roll').forEach(r=>{const s=r.dataset.t||r.textC
       const v=Math.round(cur.f[i]*S.v)+'%';if(S._v!==v){S._v=v;S.pv.textContent=v}if(d>.5)st=i});
     // the current share's % in the hole
     ctr.set(0,0,0);tilt.localToWorld(ctr);ctr.project(camera);gc.style.transform='translate('+((ctr.x*W/2)).toFixed(1)+'px,'+((-ctr.y*H/2)).toFixed(1)+'px)';
-    const lbl=st<0?'':Math.round(cur.f[st]*SEG[st].v)+'%';if(lbl!==lastSt){lastSt=lbl;nEl.textContent=lbl;if(st>=0)gc.style.setProperty('--gc',SEG[st].c)}
+    const lbl=st<0?'GRVX':Math.round(cur.f[st]*SEG[st].v)+'%';if(lbl!==lastSt){lastSt=lbl;nEl.textContent=lbl;if(st>=0)gc.style.setProperty('--gc',SEG[st].c);else gc.style.removeProperty('--gc')}
+    hd.classList.toggle('in',cur.k>.25||rm);hd.classList.toggle('dark',cur.d[0]>.5);
     renderer.render(scene,camera);raf=requestAnimationFrame(frame)}
   new IntersectionObserver(es=>{vis=es[0].isIntersecting;if(vis&&!raf)raf=requestAnimationFrame(frame)},{rootMargin:'200px'}).observe(sec);
 })();
+</script>
+<script>
+// copy the contract address (example value for now)
+document.querySelectorAll('.copybtn').forEach(b=>b.addEventListener('click',async()=>{const t=b.parentElement.querySelector('.ex').textContent.trim();
+  try{await navigator.clipboard.writeText(t)}catch(e){}b.classList.add('done');clearTimeout(b._t);b._t=setTimeout(()=>b.classList.remove('done'),1300)}));
 </script>
 </body>
 </html>
