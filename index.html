@@ -219,7 +219,7 @@ body.go .copy .actions{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .5s both}
 .facts div{display:flex;justify-content:space-between;gap:16px;padding:16px 0;border-bottom:1px solid rgba(15,15,15,.1);font-size:clamp(14px,1vw,18px)}
 .facts span{color:#4D5450}
 .copybtn{position:relative;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;padding:0;border:0;border-radius:7px;background:transparent;color:#0F0F0F;cursor:pointer;transition:background .2s}
-.copybtn:hover{background:rgba(15,15,15,.07)}.copybtn svg{width:16px;height:16px}
+.addr:hover .copybtn{background:rgba(15,15,15,.07)}.copybtn svg{width:16px;height:16px}
 .copybtn .ok{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;color:#00A86B;transition:opacity .2s}
 .copybtn.done>svg{opacity:0}.copybtn.done .ok{opacity:1}
 .dist{display:flex;flex-direction:column;align-items:center;gap:clamp(10px,1.6vh,22px)}
@@ -234,12 +234,14 @@ body.go .copy .actions{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .5s both}
 #token.pin .tk-s.in span{opacity:1;filter:none;transform:none}
 #token.pin .facts{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .9s cubic-bezier(.2,.7,.2,1)}
 #token.pin .facts.show{opacity:1;transform:none}
-.gd-dots{position:absolute;left:0;top:0;width:0;height:0;opacity:0;background-image:radial-gradient(circle,rgba(15,15,15,.14) .7px,transparent 1.1px);background-size:22px 22px;-webkit-mask-image:radial-gradient(closest-side,#000 40%,transparent),radial-gradient(ellipse var(--rx,0) var(--ry,0) at 50% 50%,transparent 96%,#000 100%);-webkit-mask-composite:source-in;mask-image:radial-gradient(closest-side,#000 40%,transparent),radial-gradient(ellipse var(--rx,0) var(--ry,0) at 50% 50%,transparent 96%,#000 100%);mask-composite:intersect}
+.gd-dots{position:absolute;left:0;top:0;width:0;height:0;opacity:0;background-image:radial-gradient(circle,rgba(15,15,15,.22) .8px,transparent 1.2px);background-size:15px 15px;-webkit-mask-image:radial-gradient(closest-side,#000 40%,transparent),radial-gradient(ellipse var(--rx,0) var(--ry,0) at 50% 50%,#000 50%,transparent 55%,transparent 96%,#000 100%);-webkit-mask-composite:source-in;mask-image:radial-gradient(closest-side,#000 40%,transparent),radial-gradient(ellipse var(--rx,0) var(--ry,0) at 50% 50%,#000 50%,transparent 55%,transparent 96%,#000 100%);mask-composite:intersect}
 .tk-h span span{display:inline-block;color:#C3C9C6;transition:color .8s cubic-bezier(.4,0,.2,1)}
 .tk-h.dark span span{color:#0F0F0F}
 #token.pin .tk-h span span{opacity:0;filter:blur(10px);transform:translateX(-14px);transition:opacity .7s ease calc(var(--i)*.035s),filter .8s ease calc(var(--i)*.035s),transform .9s cubic-bezier(.2,.7,.2,1) calc(var(--i)*.035s),color .8s cubic-bezier(.4,0,.2,1)}
 #token.pin .tk-h.in span span{opacity:1;filter:none;transform:none}
-.addr{display:inline-flex;align-items:center;gap:8px;padding:5px 6px 5px 12px;border-radius:10px;background:#F1F3F2;color:#0F0F0F}
+.addr{display:inline-flex;align-items:center;gap:8px;padding:5px 6px 5px 12px;border-radius:10px;background:#F1F3F2;color:#0F0F0F;cursor:pointer;transition:background .2s}
+.addr:hover{background:#E8ECEA}
+.addr .ex{cursor:pointer!important}
 #token .facts .ex{border-bottom:0;cursor:default}
 #token .facts div:nth-child(3)>span:last-child{font-weight:600;color:#0F0F0F}
 #token .tok-l .sub{margin-bottom:1.6em}
@@ -260,7 +262,9 @@ body.go .copy .actions{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .5s both}
 .lg-v{font-family:"Space Mono",ui-monospace,monospace;font-weight:400;text-align:right;font-variant-numeric:tabular-nums;color:#0F0F0F}
 .legend .ex{border-bottom:0;cursor:default}
 #token .facts{position:relative;z-index:1;display:flex;justify-content:space-between;gap:24px;margin-top:clamp(20px,4vh,48px);padding-top:clamp(14px,2vh,22px);border-top:1px solid rgba(15,15,15,.1)}
-#token .facts div{display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:0;border:0;font-size:clamp(14px,1vw,17px)}
+#token .facts div{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:0;border:0;font-size:clamp(14px,1vw,17px)}
+#token .facts div>:last-child{display:flex;align-items:center;min-height:36px}
+#token .facts div:nth-child(1)>b,#token .facts div:nth-child(3)>span:last-child{font-size:clamp(17px,1.25vw,22px)}
 #token .facts div>span:first-child{font-size:13px;color:#7A817D}
 #token.pin{height:420vh;padding:0}
 #token.pin .tok-in{position:sticky;top:0;height:100vh;box-sizing:border-box;padding:clamp(96px,13vh,136px) var(--pad) clamp(26px,4.6vh,52px);display:flex;flex-direction:column;justify-content:flex-start}
@@ -1229,7 +1233,7 @@ document.querySelectorAll('.btn .roll').forEach(r=>{const s=r.dataset.t||r.textC
 </script>
 <script>
 // copy the contract address (example value for now)
-document.querySelectorAll('.copybtn').forEach(b=>b.addEventListener('click',async()=>{const t=b.parentElement.querySelector('.ex').textContent.trim();
+document.querySelectorAll('.addr').forEach(a=>a.addEventListener('click',async()=>{const b=a.querySelector('.copybtn'),t=a.querySelector('.ex').textContent.trim();
   try{await navigator.clipboard.writeText(t)}catch(e){}b.classList.add('done');clearTimeout(b._t);b._t=setTimeout(()=>b.classList.remove('done'),1300)}));
 </script>
 </body>
