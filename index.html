@@ -9,7 +9,7 @@
 <meta name="description" content="Grivnex — цифрові гроші на блокчейні: ключі лише в тебе, переказ за секунди, без кордонів і вихідних.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@400;500;600;700&family=Onest:wght@400;500;600;700&family=Geologica:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@400;500;600;700&family=Onest:wght@400;500;600;700&family=Geologica:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{color-scheme:dark;--bg:#0F0F0F;--bg-glow:#11201A;--text:#F4F6F5;--soft:rgba(244,246,245,.86);--muted:#8E9994;--brand:#1FC184;--brand-hi:#2BE39B;--line:rgba(244,246,245,.12);--field:#171918;--pad:10.8vw}
 *{box-sizing:border-box}
@@ -181,6 +181,7 @@ body.go .copy .actions{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .5s both}
 .card.on::after{opacity:.5}
 .card .n{font-size:clamp(18px,1.35vw,24px);font-weight:600;letter-spacing:-.01em;color:#8A928E;transition:color .8s cubic-bezier(.4,0,.2,1)}
 .card.on .n{color:rgba(255,255,255,.85)}
+.card .n,.step .n{font-family:"Space Mono",ui-monospace,monospace;font-weight:400;letter-spacing:0}
 .card .ci{display:flex;align-items:center;justify-content:center}
 .card .ci svg{width:clamp(72px,5.8vw,100px);height:auto;color:#0F0F0F;transition:color .45s ease,transform .45s ease}
 .card.on .ci svg{color:#fff;animation:ipop .55s cubic-bezier(.2,.9,.3,1.3) both}
@@ -341,7 +342,7 @@ body.lab-open .lab-veil{opacity:1;pointer-events:auto}
 #how.pin .how-in{position:sticky;top:0;min-height:100vh;box-sizing:border-box;padding:clamp(84px,11vh,130px) var(--pad) clamp(32px,5vh,64px);display:flex;flex-direction:column;justify-content:center}
 .step{--sb:#F3F5F4;position:relative;display:flex;flex-direction:column;background:var(--sb);border-radius:32px;clip-path:var(--stq,inset(0 round 32px));padding:clamp(22px,2vw,36px);transition:background-color .45s ease}
 .step:hover{--sb:#EEF2F0}
-.step .n{position:absolute;z-index:1;top:clamp(20px,1.8vw,32px);left:clamp(22px,2vw,36px);display:block;width:auto;height:auto;margin:0;background:none;border-radius:0;color:#0F0F0F;font-size:clamp(19px,1.35vw,26px);font-weight:500;letter-spacing:-.02em;line-height:1}
+.step .n{position:absolute;z-index:1;top:clamp(20px,1.8vw,32px);left:clamp(22px,2vw,36px);display:block;width:auto;height:auto;margin:0;background:none;border-radius:0;color:#0F0F0F;font-size:clamp(19px,1.35vw,26px);font-weight:400;letter-spacing:0;font-family:"Space Mono",ui-monospace,monospace;line-height:1}
 .step p{line-height:1.36}
 .xt{display:grid;gap:1.05em;margin-top:1.4em;font-size:14px;color:#4D5450}
 .xr{display:grid;gap:.6em}
