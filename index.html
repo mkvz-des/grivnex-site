@@ -64,6 +64,7 @@ body.go .copy .actions{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .5s both}
 @media (max-width:760px){.cards{grid-template-columns:1fr}.info{margin-top:-3vh}}
 /* Draft blocks 4–10 */
 .eyebrow{display:inline-block;margin-bottom:1.1em;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#00A86B}
+.ex{border-bottom:1px dotted currentColor;cursor:help}
 .tbd{display:inline-block;padding:.05em .45em;border:1px dashed rgba(15,15,15,.28);border-radius:.4em;color:#7A827E;font-size:.92em;white-space:nowrap}
 .sec{position:relative;z-index:1;background:#FFFFFF;color:#0F0F0F;padding:clamp(72px,11vh,150px) var(--pad);border-top:1px solid rgba(15,15,15,.07);scroll-margin-top:60px}
 .info{scroll-margin-top:60px}
@@ -269,33 +270,33 @@ body.lab-open .lab-veil{opacity:1;pointer-events:auto}
   <p class="sub">Три кроки. Без досвіду в крипті. Деталі для досвідчених — під кожним кроком.</p>
   <div class="steps">
     <div class="step"><span class="n">1</span><b>Встанови гаманець</b><p>Застосунок на телефоні або розширення в браузері. Це твій особистий «гаманець», ключі від якого лише в тебе.</p>
-      <details><summary>Для досвідчених</summary><p>Підтримувані гаманці: <span class="tbd">список</span>. Мережа: <span class="tbd">мережа</span>.</p></details></div>
+      <details><summary>Для досвідчених</summary><p>Підтримувані гаманці: <span class="ex" title="Приклад — замінимо реальними даними">MetaMask, Trust Wallet, Phantom</span>. Мережа: <span class="ex" title="Приклад — замінимо реальними даними">Base</span>.</p></details></div>
     <div class="step"><span class="n">2</span><b>Отримай Grivnex</b><p>Обміняй на іншу криптовалюту або купи за гривні через партнера.</p>
-      <details><summary>Для досвідчених</summary><p>DEX: <span class="tbd">біржа</span>. Адреса контракту — у блоці «Токен».</p></details></div>
+      <details><summary>Для досвідчених</summary><p>DEX: <span class="ex" title="Приклад — замінимо реальними даними">Uniswap, Aerodrome</span>. Адреса контракту — у блоці «Токен».</p></details></div>
     <div class="step"><span class="n">3</span><b>Надсилай і зберігай</b><p>Переказ займає секунди. Кошти завжди в тебе, без посередників.</p>
-      <details><summary>Для досвідчених</summary><p>Комісія мережі: <span class="tbd">сума</span>. Час підтвердження: <span class="tbd">сек</span>.</p></details></div>
+      <details><summary>Для досвідчених</summary><p>Комісія мережі: <span class="ex" title="Приклад — замінимо реальними даними">≈ $0,01</span>. Час підтвердження: <span class="ex" title="Приклад — замінимо реальними даними">≈ 2 с</span>.</p></details></div>
   </div>
 </section>
 
 <section class="sec" id="token">
   <span class="eyebrow">Токен</span>
   <h2>Токеноміка GRVX</h2>
-  <p class="sub">Скільки токенів існує і як вони розподілені. Цифри нижче — заглушки, їх дадуть партнери.</p>
+  <p class="sub">Скільки токенів існує і як вони розподілені. Значення нижче — приклад, реальні дадуть партнери.</p>
   <div class="token">
     <div class="facts">
-      <div><span>Тікер</span><b>GRVX <span class="tbd">робочий</span></b></div>
-      <div><span>Мережа</span><span class="tbd">мережа</span></div>
-      <div><span>Загальна кількість</span><span class="tbd">000 000 000</span></div>
-      <div><span>Адреса контракту</span><span><span class="tbd">0x…</span><button class="copybtn" type="button">Копіювати</button></span></div>
-      <div><span>Аудит</span><span class="tbd">компанія</span></div>
+      <div><span>Тікер</span><b>GRVX</b></div>
+      <div><span>Мережа</span><span class="ex" title="Приклад — замінимо реальними даними">Base (Ethereum L2)</span></div>
+      <div><span>Загальна кількість</span><span class="ex" title="Приклад — замінимо реальними даними">1 000 000 000 GRVX</span></div>
+      <div><span>Адреса контракту</span><span><span class="ex" title="Приклад — замінимо реальними даними">0x7a3F…9c21</span><button class="copybtn" type="button">Копіювати</button></span></div>
+      <div><span>Аудит</span><span class="ex" title="Приклад — замінимо реальними даними">Hacken</span></div>
     </div>
     <div class="dist">
       <div class="donut" role="img" aria-label="Розподіл токенів, заглушка"></div>
       <div class="legend">
-        <div><i style="background:#0F0F0F"></i>Спільнота — <span class="tbd">40%</span></div>
-        <div><i style="background:var(--brand)"></i>Ліквідність — <span class="tbd">25%</span></div>
-        <div><i style="background:#9AA39F"></i>Команда — <span class="tbd">20%</span></div>
-        <div><i style="background:#D6DBD8"></i>Резерв — <span class="tbd">15%</span></div>
+        <div><i style="background:#0F0F0F"></i>Спільнота — <span class="ex" title="Приклад — замінимо реальними даними">40%</span></div>
+        <div><i style="background:var(--brand)"></i>Ліквідність — <span class="ex" title="Приклад — замінимо реальними даними">25%</span></div>
+        <div><i style="background:#9AA39F"></i>Команда — <span class="ex" title="Приклад — замінимо реальними даними">20%</span></div>
+        <div><i style="background:#D6DBD8"></i>Резерв — <span class="ex" title="Приклад — замінимо реальними даними">15%</span></div>
       </div>
     </div>
   </div>
@@ -306,9 +307,9 @@ body.lab-open .lab-veil{opacity:1;pointer-events:auto}
   <h2>Безпека і аудит</h2>
   <p class="sub">Що перевірено, хто стоїть за проєктом і з ким ми працюємо.</p>
   <div class="trust">
-    <div class="tcard"><b>Аудит контракту</b><p>Код перевірила <span class="tbd">компанія</span>. Звіт відкритий.</p></div>
+    <div class="tcard"><b>Аудит контракту</b><p>Код перевірила <span class="ex" title="Приклад — замінимо реальними даними">Hacken</span>. Звіт відкритий.</p></div>
     <div class="tcard"><b>Відкритий код</b><p>Контракт опублікований, кожен може його перевірити.</p></div>
-    <div class="tcard"><b>Команда</b><p><span class="tbd">фото або анонімно</span> — вирішуємо разом із партнерами.</p></div>
+    <div class="tcard"><b>Команда</b><p>Публічна команда: імена, ролі й профілі.</p></div>
   </div>
   <div class="logos"><span>Партнер</span><span>Біржа</span><span>Аудитор</span><span>Гаманець</span><span>Партнер</span></div>
 </section>
@@ -320,9 +321,9 @@ body.lab-open .lab-veil{opacity:1;pointer-events:auto}
   <div class="road">
     <div class="done"><small>Q4 2026</small><b>Бренд і сайт</b><p>Назва, айдентика, лендинг.</p></div>
     <div class="now"><small>Q1 2027</small><b>Спільнота</b><p>Telegram, X, Discord, перші Grivers.</p></div>
-    <div><small><span class="tbd">дата</span></small><b>Запуск токена</b><p>Контракт, аудит, ліквідність.</p></div>
-    <div><small><span class="tbd">дата</span></small><b>Лістинги</b><p>CoinGecko, CoinMarketCap, біржі.</p></div>
-    <div><small><span class="tbd">дата</span></small><b>Далі</b><p>Партнерства й нові можливості.</p></div>
+    <div><small><span class="ex" title="Приклад — замінимо реальними даними">Q2 2027</span></small><b>Запуск токена</b><p>Контракт, аудит, ліквідність.</p></div>
+    <div><small><span class="ex" title="Приклад — замінимо реальними даними">Q3 2027</span></small><b>Лістинги</b><p>CoinGecko, CoinMarketCap, біржі.</p></div>
+    <div><small><span class="ex" title="Приклад — замінимо реальними даними">2028</span></small><b>Далі</b><p>Партнерства й нові можливості.</p></div>
   </div>
 </section>
 
@@ -346,11 +347,11 @@ body.lab-open .lab-veil{opacity:1;pointer-events:auto}
   <div class="faq">
     <details><summary>Що таке Grivnex?</summary><p>Криптотокен: свої цифрові гроші, які ти тримаєш сам і надсилаєш за секунди.</p></details>
     <details><summary>Це державна валюта або цифрова гривня?</summary><p>Ні. Grivnex не пов'язаний з НБУ і не замінює гривню. Це незалежний криптопроєкт.</p></details>
-    <details><summary>Де купити Grivnex?</summary><p><span class="tbd">біржі та партнери</span> — з'явиться після запуску токена.</p></details>
+    <details><summary>Де купити Grivnex?</summary><p>На <span class="ex" title="Приклад — замінимо реальними даними">Uniswap і Aerodrome</span> у мережі <span class="ex" title="Приклад — замінимо реальними даними">Base</span> одразу після запуску, згодом — на централізованих біржах.</p></details>
     <details><summary>Чи це безпечно?</summary><p>Контракт проходить аудит, код відкритий. Але будь-яка криптовалюта — ризик: не вкладай більше, ніж готовий втратити.</p></details>
     <details><summary>Мені потрібен криптогаманець?</summary><p>Так. Як його встановити — у блоці «Як почати з Grivnex».</p></details>
-    <details><summary>Які комісії?</summary><p>Лише комісія мережі: <span class="tbd">сума</span>.</p></details>
-    <details><summary>Хто стоїть за проєктом?</summary><p><span class="tbd">команда / партнери</span></p></details>
+    <details><summary>Які комісії?</summary><p>Лише комісія мережі: <span class="ex" title="Приклад — замінимо реальними даними">≈ $0,01</span> за переказ.</p></details>
+    <details><summary>Хто стоїть за проєктом?</summary><p>Команда Grivnex разом із партнерами. Деталі — у блоці «Безпека і аудит».</p></details>
   </div>
 </section>
 
