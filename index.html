@@ -53,9 +53,9 @@ h1{margin:0;font-weight:600;font-size:clamp(30px,3.05vw,64px);line-height:1.04;l
 .btn .roll .c>i{display:block;font-style:normal;transition:transform var(--d,.42s) cubic-bezier(.65,0,.35,1) var(--dl,0s)}
 .btn:hover .roll .c>i{transform:translateY(-100%)}
 .cta{color:#fff;text-shadow:0 1px 1px rgba(0,40,25,.22)}
-.cta::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,color-mix(in srgb,var(--brand-hi) 70%,#fff) 0%,var(--brand-hi) 42%,var(--brand) 100%);-webkit-mask-box-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 0C91 0 100 9 100 50S91 100 50 100 0 91 0 50 9 0 50 0Z'/%3E%3C/svg%3E") 50 / 20px stretch;mask-border:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 0C91 0 100 9 100 50S91 100 50 100 0 91 0 50 9 0 50 0Z'/%3E%3C/svg%3E") 50 fill / 20px stretch;box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
-.cta::after{content:"";position:absolute;left:18%;right:18%;bottom:-.55em;height:65%;z-index:-2;border-radius:50%;background:var(--brand-hi);filter:blur(16px);opacity:.55;transition:opacity .3s ease,transform .3s ease}
-.cta:hover::after{opacity:.85;transform:scaleX(1.12)}
+.cta::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,color-mix(in srgb,var(--brand-hi) 70%,#fff) 0%,var(--brand-hi) 42%,var(--brand) 100%);clip-path:var(--sq,inset(0 round 16px));box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
+.cta::after{content:"";position:absolute;left:8%;right:8%;top:22%;bottom:22%;z-index:-2;border-radius:50%;background:var(--brand-hi);filter:blur(18px);opacity:.32;transition:opacity .3s ease}
+.cta:hover::after{opacity:.48}
 .btn2{color:var(--text);padding:0 .6em;opacity:.92}
 .btn2:hover{opacity:1}
 .btn2 svg{width:1.15em;height:1.15em;flex:none;opacity:.85}
@@ -687,8 +687,16 @@ requestAnimationFrame(frame);
 </script>
 <script>
 // Buttons: split label into letters that roll up one after another on hover
+// Apple-style continuous corners (superellipse) for the filled button
+function grvSquircle(){document.querySelectorAll('.cta').forEach(b=>{const w=b.offsetWidth,h=b.offsetHeight;if(!w||!h)return;
+  const R=Math.min(h,w)*.5*.92,n=5,N=14,pts=[];
+  const corner=(cx,cy,sx,sy,a0)=>{for(let i=0;i<=N;i++){const th=(a0+i/N)*Math.PI/2,c=Math.cos(th),s=Math.sin(th);
+    pts.push([cx+sx*R*Math.sign(c)*Math.pow(Math.abs(c),2/n),cy+sy*R*Math.sign(s)*Math.pow(Math.abs(s),2/n)])}};
+  corner(w-R,R,1,-1,0);corner(R,R,1,-1,1);corner(R,h-R,1,-1,2);corner(w-R,h-R,1,-1,3);
+  b.style.setProperty('--sq','path("M'+pts.map(q=>q[0].toFixed(2)+' '+q[1].toFixed(2)).join('L')+'Z")')})}
+grvSquircle();if(window.ResizeObserver){const ro=new ResizeObserver(grvSquircle);document.querySelectorAll('.cta').forEach(b=>ro.observe(b))}else addEventListener('resize',grvSquircle);
 document.querySelectorAll('.btn .roll').forEach(r=>{const s=r.dataset.t||r.textContent;r.textContent='';r.setAttribute('aria-label',s);
-  [...s].forEach((ch,k)=>{const c=document.createElement('span');c.className='c';c.setAttribute('aria-hidden','true');c.style.setProperty('--dl',(k*22)+'ms');c.style.setProperty('--d',(380+(k%3)*70)+'ms');
+  [...s].forEach((ch,k)=>{const c=document.createElement('span');c.className='c';c.setAttribute('aria-hidden','true');c.style.setProperty('--dl',(k*28)+'ms');
     const g=ch===' '?'\u00a0':ch;c.innerHTML='<i></i><i></i>';c.children[0].textContent=g;c.children[1].textContent=g;r.appendChild(c)})});
 </script>
 <script>
