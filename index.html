@@ -1076,7 +1076,7 @@ document.querySelectorAll('.btn .roll').forEach(r=>{const s=r.dataset.t||r.textC
 (function(){
   const hero=document.getElementById('hero'),nav=document.getElementById('nav'),logo=nav&&nav.querySelector('.logo');if(!hero)return;
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const RANGE=.55,RAD=44;let cur=0;
+  const RANGE=.55,RAD=44;let cur=0;addEventListener('resize',()=>{hero._r=null});
   function frame(){
     const vh=window.innerHeight,w=window.innerWidth,target=Math.min(1,Math.max(0,window.scrollY/(vh*RANGE)));
     cur=reduce?target:cur+(target-cur)*.12;if(Math.abs(target-cur)<.0005)cur=target;
@@ -1087,7 +1087,8 @@ document.querySelectorAll('.btn .roll').forEach(r=>{const s=r.dataset.t||r.textC
     const sMin=mob?Math.min(1-2*pad/w,(vh-need-pad)/vh):1-2*pad/w,g=mob?er:e,s=1-g*(1-sMin);
     const ty=mob?(1-s)*vh/2-pad*g:0;
     hero.style.transform=s<.9999?'translateY('+ty.toFixed(1)+'px) scale('+s.toFixed(4)+')':'';
-    hero.style.borderRadius=(er*RAD/s).toFixed(2)+'px';
+    // Apple-style continuous corners (squircle), same as the buttons and cards
+    {const Rr=Math.round(er*RAD/s*2)/2;if(Rr!==hero._r){hero._r=Rr;hero.style.clipPath=Rr>0&&window.grvSqPath?grvSqPath(hero.offsetWidth,hero.offsetHeight,Rr,5,0):''}}
     if(nav){const nr=nav.getBoundingClientRect(),hr=hero.getBoundingClientRect(),cy=nr.top+nr.height/2;
       const inside=cy>hr.top&&cy<hr.bottom;nav.classList.toggle('light',!inside);
       const past=window.scrollY>vh*RANGE+4;nav.classList.toggle('solid',past);nav.classList.toggle('compact',past);
