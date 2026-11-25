@@ -151,14 +151,14 @@ body.go .copy .lead{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .3s both}
 body.go .copy .actions{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .5s both}
 @keyframes zin{from{opacity:0;transform:scale(1.35);filter:blur(10px)}to{opacity:1;transform:none;filter:none}}
 @media (prefers-reduced-motion:reduce){.copy h1,.copy .lead,.copy .actions{opacity:1;animation:none!important}}
-.info{position:relative;z-index:1;background:#FFFFFF;color:#0F0F0F;padding:clamp(80px,12vh,160px) var(--pad) clamp(140px,30vh,320px);margin-top:-7vh;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,720px);gap:clamp(40px,4vw,80px);align-items:start}
+.info{position:relative;z-index:1;background:#FFFFFF;color:#0F0F0F;padding:clamp(80px,12vh,160px) var(--pad) clamp(140px,30vh,320px);margin-top:-7vh;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,700px);gap:clamp(32px,3vw,64px);align-items:start}
 .info-l{position:sticky;top:34vh}
-.info h2{margin:0 0 .4em;font-weight:500;white-space:nowrap;font-size:clamp(26px,2.3vw,48px);letter-spacing:-.02em;line-height:1.1;max-width:13em}
+.info h2{margin:0 0 .4em;font-weight:500;white-space:nowrap;font-size:clamp(28px,2.6vw,52px);letter-spacing:-.02em;line-height:1.1;max-width:13em}
 .info h2 .w{color:#C3C9C6;transition:color .8s cubic-bezier(.4,0,.2,1)}
 .info h2 .w.on{color:#0F0F0F}
-.info .eyebrow{font-weight:600;background:linear-gradient(90deg,var(--brand-hi),var(--brand));-webkit-background-clip:text;background-clip:text;color:transparent}
+.info .eyebrow{font-weight:700;background:linear-gradient(90deg,var(--brand-hi),var(--brand));-webkit-background-clip:text;background-clip:text;color:transparent}
 .info .sub{margin:0;font-size:clamp(14px,.95vw,18px);line-height:1.4;color:#5A615E;max-width:26em}
-.cards{display:flex;flex-direction:column;gap:16px}
+.cards{display:flex;flex-direction:column;gap:16px;padding-top:30vh}
 .card{--m1:#A3E06D;--m2:#3EAF66;--m3:#1D6838;--m4:#7BD45A;--b1:#173D1D;--b2:#0A2310;position:relative;isolation:isolate;display:grid;grid-template-rows:auto 1fr auto;min-height:clamp(290px,20vw,350px);padding:clamp(24px,2vw,34px);color:#0F0F0F;clip-path:var(--sq,inset(0 round 32px));background:rgba(15,15,15,.13);transition:color .8s cubic-bezier(.4,0,.2,1)}
 .card:nth-child(2){--m1:#45CFD0;--m2:#0E8B9E;--m3:#0B4C66;--m4:#22B3A6;--b1:#0A3A47;--b2:#051F29}
 .card:nth-child(3){--m1:#FFB36B;--m2:#EE7A2E;--m3:#8A3A12;--m4:#FF9447;--b1:#4A2410;--b2:#220F05}
@@ -533,7 +533,7 @@ window.grivnexPalette=function(L){L=L||window.GRIVNEX_LAB;const P=window.GRIVNEX
 <script>
 // Smooth page scrolling
 (function(){if(!window.Lenis||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  const l=new Lenis({lerp:.085,wheelMultiplier:.9,anchors:{offset:-70}});window.grvLenis=l;
+  const l=new Lenis({lerp:.12,wheelMultiplier:1,anchors:{offset:-70}});window.grvLenis=l;
   function raf(t){l.raf(t);requestAnimationFrame(raf)}requestAnimationFrame(raf)})();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
@@ -792,7 +792,7 @@ document.querySelectorAll('.btn .roll').forEach(r=>{const s=r.dataset.t||r.textC
 // the heading turns black chunk by chunk with the cards
 (function(){const cs=[...document.querySelectorAll('.info .card')],L=document.querySelector('.info-l'),ws=[...document.querySelectorAll('.info h2 .w')];if(!cs.length||!L)return;let tick=false;
   function upd(){tick=false;const lr=L.getBoundingClientRect(),mid=lr.top+lr.height/2;let idx=-1,past=-1;
-    cs.forEach((c,i)=>{const r=c.getBoundingClientRect();if(r.top<=mid+8){past=i;if(r.bottom>=mid-8)idx=i}});
+    cs.forEach((c,i)=>{const r=c.getBoundingClientRect();if(r.top+r.height/2<=mid+4)past=i});idx=past;
     cs.forEach((c,i)=>c.classList.toggle('on',i===idx));
     ws.forEach((w,i)=>w.classList.toggle('on',i<=past))}
   addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(upd)}},{passive:true});addEventListener('resize',upd);upd()})();
