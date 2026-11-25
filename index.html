@@ -294,6 +294,7 @@ body.lab-open .lab-veil{opacity:1;pointer-events:auto}
     </section>
     <section class="lab-sec"><h3>3D-об'єкт на головній</h3>
       <div class="opts" id="optObj">
+        <button class="opt" type="button" data-obj="mark">Знак Grivnex<small>з логотипа</small></button>
         <button class="opt" type="button" data-obj="grivna">Гривна<small>шестикутна</small></button>
         <button class="opt" type="button" data-obj="pill">Злиток-пігулка<small>перша версія</small></button>
         <button class="opt" type="button" disabled>Свій 3D (.glb)<small>скоро</small></button>
@@ -499,6 +500,19 @@ function grivnaGeo(){
     const ux=t1[0]-t0[0],uz=t1[2]-t0[2],vy=b0[1]-t0[1],nx=-uz*vy,nz=ux*vy,cx=(t0[0]+t1[0])/2,cz=(t0[2]+t1[2])/2;
     if(nx*cx+nz*cz>0)idx.push(base,base+1,base+2,base,base+2,base+3);else idx.push(base,base+2,base+1,base,base+3,base+2)}
   const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(pos,3));geo.setIndex(idx);geo.computeVertexNormals();return geo}
+function markGeo(){
+  const D=['M317.52 149.348C288.257 68.1938 156.004 20.6396 92.3737 135.439L94.955 137.698C158.805 68.8124 248.6 99.6631 275.152 162.058C299.475 219.214 272.715 297.462 184.332 309.032L184.033 311.846C296.56 323.057 344.572 224.372 317.52 149.348Z','M101.955 312.312C186.871 327.533 294.166 236.758 226.542 124.264L223.296 125.371C251.042 215.105 179.438 277.456 112.124 269.264C50.4639 261.761 -3.93126 199.471 30.2265 117.139L27.9389 115.473C-38.0184 207.33 23.4541 298.242 101.955 312.312Z','M65.1686 46.4172C10.6802 113.301 38.0399 251.155 169.214 246.564L169.821 243.188C77.8878 223.94 58.0803 131.083 97.8855 76.1854C134.348 25.8982 215.201 8.53169 270.642 78.3288L273.208 77.1359C224.857 -25.0907 115.541 -15.4136 65.1686 46.4172Z'],W=325,H=314,S=2.5/W,shapes=[];
+  D.forEach(d=>{const tk=d.match(/[MLCZ]|-?\d*\.?\d+(?:e-?\d+)?/gi),s=new T.Shape();let i=0,c='';const n=()=>parseFloat(tk[i++]);
+    const X=v=>(v-W/2)*S,Y=v=>-(v-H/2)*S;
+    while(i<tk.length){if(/[a-z]/i.test(tk[i]))c=tk[i++].toUpperCase();
+      if(c==='M'){s.moveTo(X(n()),Y(n()));c='L'}else if(c==='L')s.lineTo(X(n()),Y(n()));
+      else if(c==='C'){const a=[n(),n(),n(),n(),n(),n()];s.bezierCurveTo(X(a[0]),Y(a[1]),X(a[2]),Y(a[3]),X(a[4]),Y(a[5]))}else if(c==='Z')s.closePath()}
+    shapes.push(s)});
+  let geo=new T.ExtrudeGeometry(shapes,{depth:.34,bevelEnabled:true,bevelThickness:.07,bevelSize:.035,bevelSegments:6,curveSegments:40});
+  geo.translate(0,0,-.17);
+  // face the camera, top leaning slightly back so the thickness reads
+  const o=new T.Object3D();o.lookAt(6,4.2,6);o.rotateX(-.32);o.updateMatrix();geo.applyMatrix4(o.matrix);
+  return geo}
 const LAB=window.GRIVNEX_LAB||{},PAL=window.grivnexPalette?window.grivnexPalette():null;
 let g,raw,OBJ_SCALE=.98;
 if(LAB.obj==='pill'){
@@ -507,6 +521,10 @@ if(LAB.obj==='pill'){
   g.rotateY(Math.PI/2);g.center();raw=g.toNonIndexed().attributes.position.array;
   if(T.BufferGeometryUtils){g.deleteAttribute('normal');g.deleteAttribute('uv');g=T.BufferGeometryUtils.mergeVertices(g,1e-4)}
   g.computeVertexNormals();OBJ_SCALE=.82;
+}else if(LAB.obj==='mark'){
+  g=markGeo();g.center();raw=g.toNonIndexed().attributes.position.array;
+  if(T.BufferGeometryUtils){g.deleteAttribute('normal');g.deleteAttribute('uv');g=T.BufferGeometryUtils.mergeVertices(g,1e-4)}
+  g.computeVertexNormals();OBJ_SCALE=.9;
 }else{g=grivnaGeo();g.center();raw=g.toNonIndexed().attributes.position.array}
 g.computeBoundingBox();
 const bb=g.boundingBox,half=bb.max.x,yh=bb.max.y;
@@ -530,7 +548,7 @@ mask.renderOrder=-5;group.add(mask);
 const GR=.25,Gr=.14,Gt=GR-Gr,a0=Math.PI/4,Gi=Math.sqrt(Gr*Gr-Gt*Gt);
 function gPath(p,arcFn){p.moveTo(GR*Math.cos(a0),GR*Math.sin(a0));arcFn(GR,a0,Math.PI*2,false);p.lineTo(.03,0);p.lineTo(.03,-Gt);p.lineTo(Gi,-Gt);arcFn(Gr,-Math.asin(Gt/Gr),a0-Math.PI*2,true)}
 const gs=new T.Shape();gPath(gs,(r,a,b,cw)=>gs.absarc(0,0,r,a,b,cw));gs.closePath();
-const gAnchor=new T.Group();gAnchor.position.set(0,yh,.02);group.add(gAnchor);
+const gAnchor=new T.Group();gAnchor.position.set(0,yh,.02);group.add(gAnchor);if(LAB.obj==='mark')gAnchor.visible=false;
 const holeGeo=new T.ShapeGeometry(gs,56);holeGeo.rotateX(-Math.PI/2);
 const hole=new T.Mesh(holeGeo,new T.MeshBasicMaterial({colorWrite:false,depthWrite:false,stencilWrite:true,stencilRef:2,stencilWriteMask:2,stencilFuncMask:2,stencilFunc:T.AlwaysStencilFunc,stencilZPass:T.ReplaceStencilOp,stencilFail:T.KeepStencilOp,stencilZFail:T.KeepStencilOp,polygonOffset:true,polygonOffsetFactor:-4,polygonOffsetUnits:-4}));
 hole.position.y=.001;hole.renderOrder=-10;gAnchor.add(hole);
