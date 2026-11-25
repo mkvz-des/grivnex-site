@@ -565,7 +565,7 @@ body.lab-open .lab-veil{opacity:1;pointer-events:auto}
 </div>
 <section class="info" id="info">
   <div class="info-l">
-    <h2><span class="w">Цифрові гроші,</span><br><span class="w">які завжди</span> <span class="w">з тобою</span></h2>
+    <h2><span class="w">Цифрові</span> <span class="w">гроші,</span><br><span class="w">які</span> <span class="w">завжди</span> <span class="w">з</span> <span class="w">тобою</span></h2>
     <p class="sub">Grivnex — токен на блокчейні. Він живе у твоєму гаманці, працює 24/7 і не знає кордонів: жодних банківських вихідних і посередників.</p>
   </div>
   <div class="cards">
@@ -953,10 +953,15 @@ document.querySelectorAll('.btn .roll').forEach(r=>{const s=r.dataset.t||r.textC
 // "What is Grivnex" cards: a card fills when it reaches the centre of the pinned text on the left;
 // the heading turns black chunk by chunk with the cards
 (function(){const cs=[...document.querySelectorAll('.info .card')],L=document.querySelector('.info-l'),ws=[...document.querySelectorAll('.info h2 .w')];if(!cs.length||!L)return;let tick=false;
-  function upd(){tick=false;const lr=L.getBoundingClientRect(),mid=lr.top+lr.height/2;let idx=-1,past=-1;
-    cs.forEach((c,i)=>{const r=c.getBoundingClientRect(),cc=r.top+r.height/2,band=r.height*.2;if(cc<=mid+band)past=i;if(Math.abs(cc-mid)<=band)idx=i});
+  function upd(){tick=false;const lr=L.getBoundingClientRect(),mid=lr.top+lr.height/2;let idx=-1;const cc=[];
+    cs.forEach((c,i)=>{const r=c.getBoundingClientRect();cc.push(r.top+r.height/2);if(Math.abs(cc[i]-mid)<=r.height*.2)idx=i});
     cs.forEach((c,i)=>c.classList.toggle('on',i===idx));
-    ws.forEach((w,i)=>w.classList.toggle('on',i<=past))}
+    // where the text centre is along the cards (0 = first card centre, n-1 = last); one word per step
+    const h=cs[0].offsetHeight,n=cc.length;let t;
+    if(mid<=cc[0])t=(mid-cc[0])/(cc[1]-cc[0]);else if(mid>=cc[n-1])t=n-1+(mid-cc[n-1])/(cc[n-1]-cc[n-2]);
+    else{let i=0;while(i<n-2&&mid>cc[i+1])i++;t=i+(mid-cc[i])/(cc[i+1]-cc[i])}
+    const a=-.2*h/(cc[1]-cc[0]),b=n-1-.2,step=(b-a)/Math.max(1,ws.length-1);
+    ws.forEach((w,i)=>w.classList.toggle('on',t>=a+i*step))}
   addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(upd)}},{passive:true});addEventListener('resize',upd);upd()})();
 // Soft snapping through the cards: scrolling stays free; when you stop inside the block,
 // the page glides to the nearest resting point (outline -> card 1 -> gap -> card 2 -> gap -> card 3)
