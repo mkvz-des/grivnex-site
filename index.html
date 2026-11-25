@@ -52,6 +52,7 @@ body.go .copy .h1b{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .05s both}
 body.go .copy .lead2{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .3s both}
 .h1b,.lead2{display:none}
 body.t2 .copy h1,body.t2 .copy .lead{display:none}
+body.t2 .copy .actions{margin-top:1.5em}
 body.t2 .copy .h1b{display:block}
 body.t2 .copy .lead2{display:block}
 .h1b{margin:0;font-weight:500;font-size:clamp(34px,3.6vw,74px);line-height:1.08;letter-spacing:-.025em;white-space:nowrap}
@@ -61,7 +62,10 @@ body.t2 .copy .lead2{display:block}
 .h1b .wd{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.14em;margin-bottom:-.14em}
 .h1b .wd>span{display:inline-block;transform:translateY(110%);transition:transform .75s cubic-bezier(.2,.85,.2,1)}
 .h1b .ph.in .wd>span{transform:none}
-.h1b .ph.out .wd>span{transform:translateY(-110%);transition-duration:.55s;transition-timing-function:cubic-bezier(.6,0,.8,.3)}
+.h1b .ph{transition:opacity .35s ease}
+.h1b .ph.out{opacity:0}
+.h1b .ph.out .wd>span{transform:none}
+body.caps .h1b{text-transform:uppercase;font-size:clamp(30px,3.05vw,62px);letter-spacing:-.01em}
 .lead2{margin:.9em 0 1.4em;font-size:clamp(14px,1.13vw,22px);line-height:1.4;color:var(--soft);max-width:24em}
 body.go .copy h1{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .05s both}
 body.go .copy .lead{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .3s both}
@@ -254,6 +258,7 @@ body.lab-open .lab-veil{opacity:1;pointer-events:auto}
       <div class="opts" id="optCopy">
         <button class="opt" type="button" data-copy="1">Тисяча років<small>слоган і фрази</small></button>
         <button class="opt" type="button" data-copy="2">Навіщо Grivnex<small>фрази знизу вгору</small></button>
+        <button class="opt" type="button" data-copy="3">НАВІЩО GRIVNEX<small>великими літерами</small></button>
       </div>
     </section>
     <section class="lab-sec"><h3>3D-об'єкт на головній</h3>
@@ -278,7 +283,6 @@ body.lab-open .lab-veil{opacity:1;pointer-events:auto}
     <h1>Тисяча років у розробці</h1>
     <p class="h1b"><span class="fix">Токен Grivnex</span><span class="rot" id="rot" aria-live="polite"></span></p>
     <p class="lead" id="lead" aria-live="polite">Гроші змінювались тисячу років. Тепер вони цифрові.</p>
-    <p class="lead2">Свої цифрові гроші: ключі лише в тебе, без банків і кордонів.</p>
     <div class="actions"><a class="cta" href="#how">Почати</a><a class="ghost" href="#info">Куди почнемо <span aria-hidden="true">→</span></a></div>
   </div>
   <div class="hint">Натисни на злиток</div>
@@ -638,11 +642,11 @@ requestAnimationFrame(frame);
   const phrases=['для переказів за секунди','щоб гроші були лише твої','для оплат без кордонів','для переказів рідним','щоб платити 24/7'];
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,HOLD=2800,STAG=70;let i=0,cur=null;
   function make(s){const ph=document.createElement('span');ph.className='ph';
-    s.split(' ').forEach((w,k)=>{const o=document.createElement('span');o.className='wd';const n=document.createElement('span');n.textContent=w;n.style.transitionDelay=(old0?260:0)+k*STAG+'ms';o.appendChild(n);ph.appendChild(o);ph.appendChild(document.createTextNode(' '))});
+    s.split(' ').forEach((w,k)=>{const o=document.createElement('span');o.className='wd';const n=document.createElement('span');n.textContent=w;n.style.transitionDelay=(old0?380:0)+k*STAG+'ms';o.appendChild(n);ph.appendChild(o);ph.appendChild(document.createTextNode(' '))});
     box.appendChild(ph);return ph}
   let old0=false;
   function show(){const old=cur;old0=!!old;cur=make(phrases[i]);
-    if(old){old.querySelectorAll('.wd>span').forEach((n,k)=>n.style.transitionDelay=k*45+'ms');old.classList.remove('in');old.classList.add('out');setTimeout(()=>old.remove(),900)}
+    if(old){old.classList.add('out');setTimeout(()=>old.remove(),900)}
     requestAnimationFrame(()=>requestAnimationFrame(()=>cur.classList.add('in')));}
   show();if(reduce)return;
   setInterval(()=>{i=(i+1)%phrases.length;show()},HOLD);
@@ -736,7 +740,7 @@ requestAnimationFrame(frame);
     const r=new FileReader();r.onload=()=>{L.logoData=r.result;L.logo='custom';save();applyLogo()};r.readAsDataURL(f)};
   document.querySelectorAll('#optObj [data-obj]').forEach(b=>b.onclick=()=>{if(L.obj===b.dataset.obj)return;L.obj=b.dataset.obj;save();location.reload()});
   mark('#optObj [data-obj]','obj');
-  function applyCopy(){document.body.classList.toggle('t2',L.copy==='2');mark('#optCopy [data-copy]','copy')}
+  function applyCopy(){document.body.classList.toggle('t2',L.copy==='2'||L.copy==='3');document.body.classList.toggle('caps',L.copy==='3');mark('#optCopy [data-copy]','copy')}
   document.querySelectorAll('#optCopy [data-copy]').forEach(b=>b.onclick=()=>{L.copy=b.dataset.copy;save();applyCopy()});
   applyCopy();
   const oc=$('optColor');
