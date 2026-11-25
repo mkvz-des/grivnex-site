@@ -151,21 +151,21 @@ body.go .copy .lead{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .3s both}
 body.go .copy .actions{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .5s both}
 @keyframes zin{from{opacity:0;transform:scale(1.35);filter:blur(10px)}to{opacity:1;transform:none;filter:none}}
 @media (prefers-reduced-motion:reduce){.copy h1,.copy .lead,.copy .actions{opacity:1;animation:none!important}}
-.info{position:relative;z-index:1;background:#FFFFFF;color:#0F0F0F;padding:clamp(80px,12vh,160px) var(--pad) clamp(140px,30vh,320px);margin-top:-7vh;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,700px);gap:clamp(32px,3vw,64px);align-items:start}
+.info{position:relative;z-index:1;background:#FFFFFF;color:#0F0F0F;padding:clamp(80px,12vh,160px) 5vw clamp(140px,30vh,320px) var(--pad);margin-top:-7vh;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,740px);gap:clamp(32px,3.3vw,64px);align-items:start}
 .info-l{position:sticky;top:34vh}
-.info h2{margin:0 0 .4em;font-weight:500;white-space:nowrap;font-size:clamp(28px,2.6vw,52px);letter-spacing:-.02em;line-height:1.1;max-width:13em}
+.info h2{margin:0 0 .4em;font-weight:500;white-space:nowrap;font-size:clamp(30px,2.9vw,58px);letter-spacing:-.02em;line-height:1.1;max-width:13em}
 .info h2 .w{color:#C3C9C6;transition:color .8s cubic-bezier(.4,0,.2,1)}
 .info h2 .w.on{color:#0F0F0F}
 .info .eyebrow{font-weight:700;background:linear-gradient(90deg,var(--brand-hi),var(--brand));-webkit-background-clip:text;background-clip:text;color:transparent}
 .info .sub{margin:0;font-size:clamp(14px,.95vw,18px);line-height:1.4;color:#5A615E;max-width:26em}
-.cards{display:flex;flex-direction:column;gap:16px;padding-top:30vh}
-.card{--m1:#A3E06D;--m2:#3EAF66;--m3:#1D6838;--m4:#7BD45A;--b1:#173D1D;--b2:#0A2310;position:relative;isolation:isolate;display:grid;grid-template-rows:auto 1fr auto;min-height:clamp(290px,20vw,350px);padding:clamp(24px,2vw,34px);color:#0F0F0F;clip-path:var(--sq,inset(0 round 32px));background:rgba(15,15,15,.13);transition:color .8s cubic-bezier(.4,0,.2,1)}
+.cards{display:flex;flex-direction:column;gap:16px;padding-top:var(--cpt,40px)}
+.card{--m1:#A3E06D;--m2:#3EAF66;--m3:#1D6838;--m4:#7BD45A;--b1:#173D1D;--b2:#0A2310;position:relative;isolation:isolate;display:grid;grid-template-rows:auto 1fr auto;min-height:clamp(320px,23vw,400px);padding:clamp(24px,2vw,34px);color:#0F0F0F;clip-path:var(--sq,inset(0 round 32px));background:rgba(15,15,15,.13);transition:color .8s cubic-bezier(.4,0,.2,1)}
 .card:nth-child(2){--m1:#45CFD0;--m2:#0E8B9E;--m3:#0B4C66;--m4:#22B3A6;--b1:#0A3A47;--b2:#051F29}
 .card:nth-child(3){--m1:#FFB36B;--m2:#EE7A2E;--m3:#8A3A12;--m4:#FF9447;--b1:#4A2410;--b2:#220F05}
 .card>.cbg{position:absolute;inset:0;z-index:-3;background:#fff;clip-path:var(--sqi,inset(1px round 31px));transition:opacity .9s cubic-bezier(.4,0,.2,1)}
 .card::before{content:"";position:absolute;inset:-30%;z-index:-2;opacity:0;filter:blur(34px);transition:opacity .9s cubic-bezier(.4,0,.2,1);
   background:radial-gradient(34% 40% at 24% 22%,var(--m1) 0%,transparent 72%),radial-gradient(40% 46% at 80% 30%,var(--m2) 0%,transparent 74%),radial-gradient(48% 50% at 34% 86%,var(--m3) 0%,transparent 72%),radial-gradient(42% 44% at 88% 92%,var(--m4) 0%,transparent 72%),linear-gradient(160deg,var(--b1),var(--b2));
-  animation:mesh 14s ease-in-out infinite alternate;animation-play-state:paused}
+  animation:mesh 6s ease-in-out infinite alternate;animation-play-state:paused}
 .card::after{content:"";position:absolute;inset:0;z-index:-1;opacity:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:220px;mix-blend-mode:overlay;transition:opacity .9s cubic-bezier(.4,0,.2,1)}
 @keyframes mesh{0%{transform:translate(0,0) rotate(0deg) scale(1)}50%{transform:translate(4%,-3%) rotate(6deg) scale(1.08)}100%{transform:translate(-3%,4%) rotate(-5deg) scale(1.04)}}
 .card.on{color:#fff}
@@ -175,8 +175,9 @@ body.go .copy .actions{animation:zin 1.1s cubic-bezier(.16,.8,.2,1) .5s both}
 .card .n{font-size:clamp(18px,1.35vw,24px);font-weight:600;letter-spacing:-.01em;color:#8A928E;transition:color .8s cubic-bezier(.4,0,.2,1)}
 .card.on .n{color:rgba(255,255,255,.85)}
 .card .ci{display:flex;align-items:center;justify-content:center}
-.card .ci svg{width:clamp(72px,5.8vw,100px);height:auto;color:#0F0F0F;transition:color .8s cubic-bezier(.4,0,.2,1),transform .9s cubic-bezier(.2,.8,.2,1)}
-.card.on .ci svg{color:#fff;transform:scale(1.06)}
+.card .ci svg{width:clamp(72px,5.8vw,100px);height:auto;color:#0F0F0F;transition:color .45s ease,transform .45s ease}
+.card.on .ci svg{color:#fff;animation:ipop .55s cubic-bezier(.2,.9,.3,1.3) both}
+@keyframes ipop{0%{transform:scale(.8) rotate(-8deg)}60%{transform:scale(1.12) rotate(3deg)}100%{transform:scale(1.06) rotate(0)}}
 .card b{display:block;font-weight:600;font-size:clamp(26px,2.15vw,40px);letter-spacing:-.025em;margin-bottom:.3em}
 .card p{margin:0;font-size:clamp(14px,1vw,17px);line-height:1.45;color:#4D5450;max-width:30em;transition:color .8s cubic-bezier(.4,0,.2,1)}
 .card.on p{color:rgba(255,255,255,.84)}
@@ -796,6 +797,27 @@ document.querySelectorAll('.btn .roll').forEach(r=>{const s=r.dataset.t||r.textC
     cs.forEach((c,i)=>c.classList.toggle('on',i===idx));
     ws.forEach((w,i)=>w.classList.toggle('on',i<=past))}
   addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(upd)}},{passive:true});addEventListener('resize',upd);upd()})();
+// Step scrolling through the cards: one wheel gesture = next state (outline -> card 1 -> card 2 -> card 3)
+(function(){const sec=document.getElementById('info'),left=document.querySelector('.info-l'),wrap=document.querySelector('.info .cards'),cs=[...document.querySelectorAll('.info .card')];
+  if(!sec||!left||!cs.length)return;let states=[],busy=false,last=0;
+  function calc(){const vh=innerHeight,lh=left.offsetHeight,ch=cs[0].offsetHeight;
+    wrap.style.setProperty('--cpt',Math.max(24,Math.round(lh/2-ch/2+48))+'px');
+    const stickyTop=vh*.34,mid=stickyTop+lh/2,y=scrollY,secTop=sec.getBoundingClientRect().top+y;
+    const s0=secTop+parseFloat(getComputedStyle(sec).paddingTop)-stickyTop;
+    states=[s0].concat(cs.map(c=>{const r=c.getBoundingClientRect();return r.top+y+r.height/2-mid+16}))}
+  calc();addEventListener('resize',calc);if(document.fonts)document.fonts.ready.then(calc);setTimeout(calc,1200);
+  const ease=t=>1-Math.pow(1-t,4);
+  addEventListener('wheel',e=>{const L=window.grvLenis;if(!L||!states.length||document.body.classList.contains('lab-open'))return;
+    if(e.target.closest&&e.target.closest('[data-lenis-prevent]'))return;
+    const y=L.animatedScroll!=null?L.animatedScroll:scrollY,vh=innerHeight,first=states[0],lastS=states[states.length-1];
+    const inZone=y>first-vh*.55&&y<lastS+vh*.55;if(!inZone)return;
+    if(busy||Date.now()-last<420){e.preventDefault();e.stopImmediatePropagation();return}
+    const d=e.deltaY;if(Math.abs(d)<2)return;let target=null;
+    if(d>0){if(y<lastS-2)target=states.find(s=>s>y+2)}else{if(y>first+2)target=[...states].reverse().find(s=>s<y-2)}
+    if(target==null)return;
+    e.preventDefault();e.stopImmediatePropagation();busy=true;last=Date.now();
+    L.scrollTo(target,{duration:.9,easing:ease,lock:true,force:true,onComplete:()=>{busy=false;last=Date.now()}})},{passive:false,capture:true});
+})();
 </script>
 <script>
 // Trust strip under the hero buttons (Optimism-style): rotating partner + what it does
