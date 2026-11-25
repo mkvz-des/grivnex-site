@@ -40,7 +40,7 @@ body{background:#FFFFFF;color:var(--text);font-family:var(--font,"Wix Madefor Di
 .logo svg.lt{width:auto;height:1.3em}
 .copy{position:absolute;z-index:2;left:var(--pad);top:54%;transform:translateY(-50%);pointer-events:none}
 .copy *{pointer-events:auto}
-h1{margin:0;font-weight:600;font-size:clamp(30px,3.05vw,64px);line-height:1.04;letter-spacing:-.02em;white-space:nowrap}
+h1{margin:0;font-weight:500;font-size:clamp(30px,3.05vw,64px);line-height:1.04;letter-spacing:-.02em;white-space:nowrap}
 .lead{margin:.55em 0 1.05em;font-size:clamp(14px,1.13vw,22px);line-height:1.3;color:var(--text);width:19em;min-height:2.6em}
 .lead .w{white-space:nowrap}
 .lead .ch{display:inline-block;overflow:hidden;vertical-align:bottom;line-height:1.3}
@@ -50,11 +50,11 @@ h1{margin:0;font-weight:600;font-size:clamp(30px,3.05vw,64px);line-height:1.04;l
 .actions .btn:active{transform:scale(.97)}
 .btn .roll{display:inline-flex;line-height:1.3}
 .btn .roll .c{display:inline-block;overflow:hidden;height:1.3em;vertical-align:top}
-.btn .roll .c>i{display:block;font-style:normal;transition:transform var(--d,.42s) cubic-bezier(.65,0,.35,1) var(--dl,0s)}
+.btn .roll .c>i{display:block;font-style:normal;transition:transform var(--d,.3s) cubic-bezier(.65,0,.35,1) var(--dl,0s)}
 .btn:hover .roll .c>i{transform:translateY(-100%)}
 .cta{color:#fff;text-shadow:0 1px 1px rgba(0,40,25,.22)}
 .cta::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,color-mix(in srgb,var(--brand-hi) 70%,#fff) 0%,var(--brand-hi) 42%,var(--brand) 100%);clip-path:var(--sq,inset(0 round 16px));box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
-.cta::after{content:"";position:absolute;left:8%;right:8%;top:22%;bottom:22%;z-index:-2;border-radius:50%;background:var(--brand-hi);filter:blur(18px);opacity:.32;transition:opacity .3s ease}
+.cta::after{content:"";position:absolute;left:-2%;right:-2%;top:6%;bottom:6%;z-index:-2;border-radius:50%;background:var(--brand-hi);filter:blur(22px);opacity:.34;transition:opacity .3s ease}
 .cta:hover::after{opacity:.48}
 .btn2{color:var(--text);padding:0 .6em;opacity:.92}
 .btn2:hover{opacity:1}
@@ -67,7 +67,7 @@ body.t2 .copy h1,body.t2 .copy .lead{display:none}
 body.t2 .copy .actions{margin-top:1.5em}
 body.t2 .copy .h1b{display:block}
 body.t2 .copy .lead2{display:block}
-.h1b{margin:0;font-weight:600;font-size:clamp(30px,3.05vw,62px);line-height:1;letter-spacing:-.025em;white-space:nowrap}
+.h1b{margin:0;font-weight:500;font-size:clamp(30px,3.05vw,62px);line-height:1;letter-spacing:-.025em;white-space:nowrap}
 .h1b .fix{display:block;color:rgba(244,246,245,.46)}
 .h1b .rot{display:block;position:relative;height:1.06em}
 .h1b .ph{position:absolute;left:0;top:0;white-space:nowrap}
@@ -508,7 +508,7 @@ function markGeo(){
       if(c==='M'){s.moveTo(X(n()),Y(n()));c='L'}else if(c==='L')s.lineTo(X(n()),Y(n()));
       else if(c==='C'){const a=[n(),n(),n(),n(),n(),n()];s.bezierCurveTo(X(a[0]),Y(a[1]),X(a[2]),Y(a[3]),X(a[4]),Y(a[5]))}else if(c==='Z')s.closePath()}
     shapes.push(s)});
-  let geo=new T.ExtrudeGeometry(shapes,{depth:.34,bevelEnabled:true,bevelThickness:.07,bevelSize:.035,bevelSegments:6,curveSegments:40});
+  let geo=new T.ExtrudeGeometry(shapes,{depth:.34,bevelEnabled:true,bevelThickness:.12,bevelSize:.06,bevelSegments:10,curveSegments:48});
   geo.translate(0,0,-.17);
   // face the camera, top leaning slightly back so the thickness reads
   const o=new T.Object3D();o.lookAt(6,4.2,6);o.rotateX(-.32);o.updateMatrix();geo.applyMatrix4(o.matrix);
@@ -524,7 +524,7 @@ if(LAB.obj==='pill'){
 }else if(LAB.obj==='mark'){
   g=markGeo();g.center();raw=g.toNonIndexed().attributes.position.array;
   if(T.BufferGeometryUtils){g.deleteAttribute('normal');g.deleteAttribute('uv');g=T.BufferGeometryUtils.mergeVertices(g,1e-4)}
-  g.computeVertexNormals();OBJ_SCALE=.9;
+  g.computeVertexNormals();OBJ_SCALE=.96;
 }else{g=grivnaGeo();g.center();raw=g.toNonIndexed().attributes.position.array}
 g.computeBoundingBox();
 const bb=g.boundingBox,half=bb.max.x,yh=bb.max.y;
@@ -689,14 +689,14 @@ requestAnimationFrame(frame);
 // Buttons: split label into letters that roll up one after another on hover
 // Apple-style continuous corners (superellipse) for the filled button
 function grvSquircle(){document.querySelectorAll('.cta').forEach(b=>{const w=b.offsetWidth,h=b.offsetHeight;if(!w||!h)return;
-  const R=Math.min(h,w)*.5*.92,n=5,N=14,pts=[];
+  const R=Math.min(h,w)*.5,n=4,N=14,pts=[];
   const corner=(cx,cy,sx,sy,a0)=>{for(let i=0;i<=N;i++){const th=(a0+i/N)*Math.PI/2,c=Math.cos(th),s=Math.sin(th);
     pts.push([cx+sx*R*Math.sign(c)*Math.pow(Math.abs(c),2/n),cy+sy*R*Math.sign(s)*Math.pow(Math.abs(s),2/n)])}};
   corner(w-R,R,1,-1,0);corner(R,R,1,-1,1);corner(R,h-R,1,-1,2);corner(w-R,h-R,1,-1,3);
   b.style.setProperty('--sq','path("M'+pts.map(q=>q[0].toFixed(2)+' '+q[1].toFixed(2)).join('L')+'Z")')})}
 grvSquircle();if(window.ResizeObserver){const ro=new ResizeObserver(grvSquircle);document.querySelectorAll('.cta').forEach(b=>ro.observe(b))}else addEventListener('resize',grvSquircle);
 document.querySelectorAll('.btn .roll').forEach(r=>{const s=r.dataset.t||r.textContent;r.textContent='';r.setAttribute('aria-label',s);
-  [...s].forEach((ch,k)=>{const c=document.createElement('span');c.className='c';c.setAttribute('aria-hidden','true');c.style.setProperty('--dl',(k*28)+'ms');
+  [...s].forEach((ch,k)=>{const c=document.createElement('span');c.className='c';c.setAttribute('aria-hidden','true');c.style.setProperty('--dl',(k*18)+'ms');
     const g=ch===' '?'\u00a0':ch;c.innerHTML='<i></i><i></i>';c.children[0].textContent=g;c.children[1].textContent=g;r.appendChild(c)})});
 </script>
 <script>
