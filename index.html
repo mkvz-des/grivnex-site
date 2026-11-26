@@ -686,7 +686,7 @@ html,body{transition:background-color .7s ease}html:has(body.trust-page),body.tr
 .rd-head .rw{display:inline-block;color:#3A403D;opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .9s cubic-bezier(.2,.7,.2,1),color .7s ease}
 .rd-head .rw.in{opacity:1;transform:none}.rd-head .rw.on{color:#fff}.rd-s .rw,.rd-s .rw.on{color:#9AA39F}
 #roadmap{transition:background-color .7s ease}#roadmap .rd,#roadmap .rd-head{transition:opacity .5s ease}
-#roadmap.lite{background:#fff}#roadmap.lite .rd,#roadmap.lite .rd-head{opacity:0}
+#community{transition:background-color .7s ease}body.rd-dark #community{background:#0E0F0F}#roadmap.lite{background:#fff}#roadmap.lite .rd,#roadmap.lite .rd-head{opacity:0}
 /* stage illustrations: thin line-art drawn by the scroll on the free side of each step */
 .rd-ill{position:absolute;width:min(28%,330px);height:auto;transform:translateY(-50%);overflow:visible;color:rgba(255,255,255,.2);--t:0}
 .rd-ill.ill-r{right:9%}.rd-ill.ill-l{left:9%}
@@ -1518,7 +1518,7 @@ document.querySelectorAll('.addr').forEach(a=>a.addEventListener('click',async()
     let l=0;for(const [py,pl] of samp){if(py>y)break;l=pl}if(y>=H)l=L;
     line.style.strokeDashoffset=(L-l).toFixed(1);
     ny.forEach((v,i)=>{const on=y>=v-2;dots[i].classList.toggle('on',on);its[i].classList.toggle('on',on)});
-    const sr=sec.getBoundingClientRect();const cm=sec.nextElementSibling,lite=!!cm&&cm.getBoundingClientRect().top<innerHeight*.55;sec.classList.toggle('lite',lite);document.body.classList.toggle('rd-dark',!lite&&sr.top<innerHeight&&sr.bottom>0);
+    const sr=sec.getBoundingClientRect();const cm=sec.nextElementSibling,lite=!!cm&&cm.getBoundingClientRect().top<innerHeight*.22;sec.classList.toggle('lite',lite);document.body.classList.toggle('rd-dark',!lite&&sr.top<innerHeight&&sr.bottom>0);
     ills.forEach(e=>{const r2=e.getBoundingClientRect(),c=r2.top+r2.height/2,t=Math.max(0,Math.min(1,(innerHeight*.95-c)/(innerHeight*.5)));e.style.setProperty('--t',t.toFixed(3))});
     // heading: words rise in, then turn white one by one as the block comes up
     const hr=head.getBoundingClientRect(),th=(innerHeight*.95-hr.top)/(innerHeight*.45);rws.forEach((w,i)=>{w.classList.toggle('in',th>0||rm);w.style.transitionDelay=(i*.03)+'s'});hws.forEach((w,i)=>w.classList.toggle('on',th>=.25+i*(.5/hws.length)||rm))}
