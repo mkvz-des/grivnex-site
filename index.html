@@ -573,7 +573,7 @@ body.lab-open .lab-veil{opacity:1;pointer-events:auto}
 .mchip::before{content:"";position:absolute;inset:-45%;z-index:-2;
   background:radial-gradient(34% 40% at 24% 22%,var(--m1) 0%,transparent 72%),radial-gradient(40% 46% at 80% 30%,var(--m2) 0%,transparent 74%),radial-gradient(48% 50% at 34% 86%,var(--m3) 0%,transparent 72%),radial-gradient(42% 44% at 88% 92%,var(--m4) 0%,transparent 72%),linear-gradient(160deg,var(--b1),var(--b2));
   filter:blur(16px) brightness(1.24) saturate(1.5)}
-.mchip::before{-webkit-clip-path:inset(23.68% round 20px);clip-path:inset(23.68% round 20px)}.mchip::after{-webkit-clip-path:inset(0 round 20px);clip-path:inset(0 round 20px)}
+.mchip{-webkit-clip-path:inset(0 round 20px);clip-path:inset(0 round 20px);box-shadow:none}.mc-w{filter:drop-shadow(0 18px 22px rgba(8,28,18,.4))}
 .mchip.on::before{animation:mesh 2.4s ease-in-out infinite alternate}
 .mchip::after{content:"";position:absolute;inset:0;z-index:-1;opacity:.45;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:220px;mix-blend-mode:overlay}
 .mchip.on{opacity:1;transform:translate(var(--tx,0),0) rotate(var(--r,0deg))}
